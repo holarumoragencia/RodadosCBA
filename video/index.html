@@ -98,7 +98,7 @@
 </div>
 
 <script>
-const CARS = ['ford-territory', 'toyota-corolla', 'hyundai-santa-fe', 'bmw-serie1', 'toyota-rav4'];
+const CARS = ['ford-territory', 'toyota-corolla', 'hyundai-santa-fe', 'toyota-sw4', 'toyota-rav4'];
 const DURATION = 16.5;
 
 // --- utilidades de animación ---
@@ -116,7 +116,7 @@ const carsEl = $('cars');
 const carEls = CARS.map(name => {
   const d = document.createElement('div');
   d.className = 'car abs';
-  d.innerHTML = `<div class="carBox"><div class="shadow"></div><img src="../assets/autos/recortados/${name}.png"></div>`;
+  d.innerHTML = `<div class="carBox"><div class="shadow"></div><img src="../assets/autos/finales/${name}.png"></div>`;
   carsEl.appendChild(d);
   return d;
 });
