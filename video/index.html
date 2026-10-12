@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Rodados Córdoba — Financiá tu próximo usado</title>
+<style>
+  @font-face { font-family: M; font-weight: 500; src: url(fonts/montserrat-latin-500-normal.woff2); }
+  @font-face { font-family: M; font-weight: 600; src: url(fonts/montserrat-latin-600-normal.woff2); }
+  @font-face { font-family: M; font-weight: 700; src: url(fonts/montserrat-latin-700-normal.woff2); }
+  @font-face { font-family: M; font-weight: 800; src: url(fonts/montserrat-latin-800-normal.woff2); }
+  :root { --orange: #FF7F00; --black: #1D1E1C; --white: #F3F2F3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: M, sans-serif; }
+  .abs { position: absolute; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+
+  /* Escena 1 */
+  #bg { left: 0; top: 0; width: 1080px; height: 1920px; background: url(../assets/fondo-galpon.webp) center/cover; transform-origin: 50% 60%; }
+  #shade { inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.25) 32%, rgba(0,0,0,.12) 55%, rgba(0,0,0,.45) 100%); }
+  #logoTop { right: 64px; top: 70px; width: 250px; }
+  #title { left: 0; width: 1080px; top: 350px; text-align: center; }
+  #toggle { position: relative; display: inline-block; height: 104px; width: 470px; border-radius: 52px; background: var(--orange); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+  #togglePill { position: absolute; top: 0; height: 104px; width: 400px; right: 0; border-radius: 52px; background: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 52px; letter-spacing: 6px; color: var(--black); padding-left: 6px; }
+  #subtitle { margin-top: 26px; color: #fff; font-weight: 700; font-size: 62px; letter-spacing: 7px; text-shadow: 0 4px 24px rgba(0,0,0,.55); white-space: nowrap; }
+  #card { left: 150px; top: 700px; width: 780px; height: 720px; border-radius: 56px; background: rgba(255,255,255,.13);
+    border: 2.5px solid rgba(255,255,255,.45); backdrop-filter: blur(16px) saturate(1.1); -webkit-backdrop-filter: blur(16px); box-shadow: 0 30px 60px rgba(0,0,0,.25); }
+  #arrow { left: 44px; top: 40px; width: 64px; height: 64px; }
+  .car { left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+  .car img { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); max-width: 1010px; max-height: 640px; filter: drop-shadow(0 18px 18px rgba(0,0,0,.45)); }
+  .car .shadow { position: absolute; left: 50%; bottom: -18px; width: 860px; height: 80px; transform: translateX(-50%); border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 70%); }
+  .carBox { position: absolute; left: 35px; width: 1010px; top: 640px; height: 670px; }
+  #pill { left: 0; width: 1080px; top: 1330px; text-align: center; }
+  .pill { display: inline-flex; align-items: center; gap: 22px; background: var(--orange); color: var(--black); border-radius: 60px;
+    padding: 26px 56px 26px 44px; font-weight: 800; font-size: 46px; letter-spacing: 5px; box-shadow: 0 12px 30px rgba(0,0,0,.35); white-space: nowrap; }
+  .tri { width: 0; height: 0; border-top: 20px solid transparent; border-bottom: 20px solid transparent; border-left: 30px solid var(--black); border-radius: 4px; }
+  #tap { width: 110px; height: 110px; margin: -55px 0 0 -55px; border-radius: 50%; background: rgba(255,255,255,.55); border: 5px solid #fff; box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+  #trail { height: 22px; margin-top: -11px; border-radius: 11px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.6)); }
+  #burst { width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: var(--orange); }
+
+  /* Escena 2 */
+  #s2 { inset: 0; background: var(--orange); }
+  #icon { left: 100px; top: 640px; width: 250px; height: 220px; }
+  #s2text { left: 100px; top: 900px; color: var(--black); }
+  #s2text .l1 { font-weight: 800; font-size: 78px; letter-spacing: 3px; line-height: 1.08; }
+  #s2text .l2 { font-weight: 600; font-size: 62px; letter-spacing: 3px; line-height: 1.15; margin-top: 10px; }
+  .w { display: inline-block; }
+
+  /* Escena 3 */
+  #s3 { inset: 0; background: radial-gradient(circle at 50% 46%, #2c2d2a 0%, var(--black) 60%); }
+  #logoBig { left: 170px; top: 700px; width: 740px; }
+  #slogan { left: 0; width: 1080px; top: 1150px; text-align: center; }
+  #fade { inset: 0; background: #000; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="s1" class="abs" style="inset:0">
+    <div id="bg" class="abs"></div>
+    <div id="shade" class="abs"></div>
+    <img id="logoTop" class="abs" src="../assets/brand/logo-rodados-blanco.png">
+    <div id="title" class="abs">
+      <div id="toggle"><div id="togglePill">FINANCIÁ</div></div>
+      <div id="subtitle">TU PRÓXIMO USADO</div>
+    </div>
+    <div id="card" class="abs">
+      <svg id="arrow" class="abs" viewBox="0 0 64 64" fill="none" stroke="#FF7F00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 12 L50 50 M50 22 L50 50 L22 50"/>
+      </svg>
+    </div>
+    <div id="cars"></div>
+    <div id="pill" class="abs"><span class="pill"><span class="tri"></span>RECIBIMOS TU USADO</span></div>
+    <div id="trail" class="abs"></div>
+    <div id="tap" class="abs"></div>
+    <div id="burst" class="abs"></div>
+  </div>
+
+  <div id="s2" class="abs">
+    <svg id="icon" class="abs" viewBox="0 0 250 220" fill="none" stroke="#1D1E1C" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+      <path class="draw" d="M14 40 Q14 22 32 22 L88 22 L108 44 L196 44 Q214 44 214 62 L214 150 Q214 168 196 168 L32 168 Q14 168 14 150 Z"/>
+      <path class="draw" d="M14 72 L214 72"/>
+      <path class="draw" d="M44 112 L96 112 M44 138 L80 138"/>
+      <path class="draw shield" d="M176 106 L222 120 L222 152 Q222 184 176 204 Q130 184 130 152 L130 120 Z" fill="#FF7F00"/>
+      <path class="draw" d="M156 154 L171 169 L198 140"/>
+    </svg>
+    <div id="s2text" class="abs">
+      <div class="l1"><span class="w">NOS</span> <span class="w">ENCARGAMOS</span></div>
+      <div class="l2"><span class="w">DE</span> <span class="w">TODA</span> <span class="w">LA</span><br><span class="w">DOCUMENTACIÓN</span></div>
+    </div>
+  </div>
+
+  <div id="s3" class="abs">
+    <img id="logoBig" class="abs" src="../assets/brand/logo-rodados-blanco.png">
+    <div id="slogan" class="abs"><span class="pill"><span class="tri"></span>MÁS QUE AUTOS, SOLUCIONES</span></div>
+  </div>
+  <div id="fade" class="abs"></div>
+</div>
+
+<script>
+const CARS = ['ford-territory', 'toyota-corolla', 'hyundai-santa-fe', 'bmw-serie1', 'toyota-rav4'];
+const DURATION = 16.5;
+
+// --- utilidades de animación ---
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eOut = p => 1 - Math.pow(1 - p, 3);
+const eInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const eBack = p => { const c = 1.70158, c3 = c + 1; return 1 + c3 * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const $ = id => document.getElementById(id);
+const css = (el, o) => Object.assign(el.style, o);
+
+// --- autos ---
+const carsEl = $('cars');
+const carEls = CARS.map(name => {
+  const d = document.createElement('div');
+  d.className = 'car abs';
+  d.innerHTML = `<div class="carBox"><div class="shadow"></div><img src="../assets/autos/recortados/${name}.png"></div>`;
+  carsEl.appendChild(d);
+  return d;
+});
+
+// Línea de tiempo (segundos)
+const T = {
+  carIn: 1.35,              // entra el primer auto
+  swipes: [2.95, 4.45, 5.95, 7.45],
+  swipeDur: 0.5,
+  tapEnd: 8.75,             // toque final sobre el último auto
+  s2: 9.35,                 // empieza escena 2
+  s3: 12.6,                 // empieza escena 3
+};
+
+function carX(i, t) {
+  // posición horizontal del auto i (0 = centrado)
+  const enter = i === 0 ? T.carIn : T.swipes[i - 1];
+  const exit = T.swipes[i];
+  let x = 1100;
+  const pIn = eInOut(prog(t, enter, enter + (i === 0 ? 0.6 : T.swipeDur)));
+  x = lerp(1100, 0, pIn);
+  if (exit !== undefined) x = lerp(x, -1150, eInOut(prog(t, exit, exit + T.swipeDur)));
+  return x;
+}
+
+function render(t) {
+  // ---------- Escena 1 ----------
+  const s1in = eOut(prog(t, 0, 0.8));
+  css($('bg'), { transform: `scale(${lerp(1.12, 1.0, eOut(prog(t, 0, 9.4)))})` });
+  css($('logoTop'), { opacity: s1in, transform: `translateY(${lerp(-30, 0, s1in)}px)` });
+
+  const tg = eBack(prog(t, 0.15, 0.75));
+  css($('toggle'), { transform: `scale(${lerp(0.4, 1, tg)})`, opacity: prog(t, 0.15, 0.35) });
+  css($('togglePill'), { right: `${lerp(70, 0, eInOut(prog(t, 0.55, 0.95)))}px` });
+  const st = eOut(prog(t, 0.6, 1.2));
+  css($('subtitle'), { opacity: st, transform: `translateY(${lerp(40, 0, st)}px)`, letterSpacing: `${lerp(22, 7, st)}px` });
+
+  const cd = eBack(prog(t, 1.0, 1.55));
+  css($('card'), { opacity: prog(t, 1.0, 1.25), transform: `translateY(${lerp(80, 0, cd)}px) scale(${lerp(.9, 1, cd)})` });
+  const ar = prog(t, 1.4, 1.9);
+  css($('arrow'), { opacity: ar, transform: `translate(${lerp(-12, 0, eOut(ar))}px, ${lerp(-12, 0, eOut(ar))}px)` });
+
+  carEls.forEach((el, i) => {
+    const x = carX(i, t);
+    const bob = Math.sin((t - 1.3) * 2.2 + i) * 4;
+    css(el, { transform: `translate(${x}px, ${bob}px)`, display: Math.abs(x) > 1099 ? 'none' : 'block' });
+  });
+
+  const pl = eBack(prog(t, 1.7, 2.2));
+  css($('pill'), { opacity: prog(t, 1.7, 1.85), transform: `scale(${lerp(.6, 1, pl)})` });
+
+  // Gesto de deslizar: un "dedo" que aprieta y arrastra a la izquierda en cada swipe
+  let tapO = 0, tapX = 0, tapY = 1080, tapS = 1, trailW = 0;
+  for (const s of T.swipes) {
+    const a = s - 0.35, b = s + T.swipeDur + 0.15;
+    if (t >= a && t <= b) {
+      const appear = prog(t, a, s - 0.1), drag = eInOut(prog(t, s, s + T.swipeDur)), gone = prog(t, s + T.swipeDur - 0.05, b);
+      tapO = appear * (1 - gone);
+      tapX = lerp(800, 300, drag);
+      tapS = lerp(1.25, 0.9, appear) * (1 - 0.1 * gone);
+      trailW = Math.max(0, 800 - tapX) * (1 - gone);
+    }
+  }
+  // toque final sobre el último auto + círculo naranja que tapa la pantalla
+  const ta = T.tapEnd - 0.4;
+  if (t >= ta && t < T.s2) {
+    tapO = prog(t, ta, T.tapEnd - 0.15) * (1 - prog(t, T.tapEnd + 0.05, T.tapEnd + 0.2));
+    tapX = 600; tapY = 1130;
+    tapS = lerp(1.25, 0.85, eOut(prog(t, ta, T.tapEnd)));
+  }
+  css($('tap'), { opacity: tapO, left: `${tapX}px`, top: `${tapY}px`, transform: `scale(${tapS})` });
+  css($('trail'), { opacity: tapO * .8, left: `${tapX}px`, top: `${tapY}px`, width: `${trailW}px` });
+  const bp = prog(t, T.tapEnd, T.s2);
+  css($('burst'), { left: '600px', top: '1130px', opacity: t >= T.tapEnd ? 1 : 0, transform: `scale(${lerp(0.3, 46, Math.pow(bp, 1.6))})` });
+  css($('s1'), { display: t >= T.s2 ? 'none' : 'block' });
+
+  // ---------- Escena 2 ----------
+  css($('s2'), { display: t >= T.s2 && t < T.s3 + 0.6 ? 'block' : 'none' });
+  const ic = eBack(prog(t, T.s2, T.s2 + 0.5));
+  css($('icon'), { transform: `scale(${lerp(.5, 1, ic)})`, opacity: prog(t, T.s2, T.s2 + 0.15), transformOrigin: '0 100%' });
+  document.querySelectorAll('#icon .draw').forEach((p, k) => {
+    const len = p.getTotalLength();
+    const dp = eOut(prog(t, T.s2 + 0.1 + k * 0.12, T.s2 + 0.7 + k * 0.12));
+    p.style.strokeDasharray = len; p.style.strokeDashoffset = len * (1 - dp);
+    if (p.classList.contains('shield')) p.style.fillOpacity = prog(t, T.s2 + 0.8, T.s2 + 1.1);
+  });
+  document.querySelectorAll('#s2text .w').forEach((w, k) => {
+    const wp = eOut(prog(t, T.s2 + 0.35 + k * 0.17, T.s2 + 0.8 + k * 0.17));
+    css(w, { opacity: wp, transform: `translateY(${lerp(50, 0, wp)}px)` });
+  });
+
+  // ---------- Escena 3 ----------
+  const s3p = eInOut(prog(t, T.s3, T.s3 + 0.55));
+  css($('s3'), { display: t >= T.s3 ? 'block' : 'none', transform: `translateY(${lerp(1920, 0, s3p)}px)` });
+  const lg = eBack(prog(t, T.s3 + 0.45, T.s3 + 1.05));
+  css($('logoBig'), { opacity: prog(t, T.s3 + 0.45, T.s3 + 0.65), transform: `scale(${lerp(.6, 1, lg)})` });
+  const sg = eBack(prog(t, T.s3 + 1.0, T.s3 + 1.45));
+  css($('slogan'), { opacity: prog(t, T.s3 + 1.0, T.s3 + 1.15), transform: `scale(${lerp(.5, 1, sg)})` });
+  css($('logoBig'), { filter: `drop-shadow(0 0 ${lerp(0, 40, Math.sin(prog(t, T.s3 + 1.2, DURATION) * Math.PI))}px rgba(255,127,0,.35))` });
+
+  css($('fade'), { opacity: Math.max(prog(t, DURATION - 0.35, DURATION), 1 - prog(t, 0, 0.25)) });
+}
+
+window.DURATION = DURATION;
+window.render = render;
+window.ready = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))]);
+
+// Vista previa en navegador: reproduce en loop
+if (!navigator.webdriver) {
+  const t0 = performance.now();
+  (function loop() { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); })();
+} else render(0);
+</script>
+</body>
+</html>
