@@ -16,27 +16,27 @@
 
   /* Escena 1 */
   #bg { left: 0; top: 0; width: 1080px; height: 1920px; background: url(../assets/fondo-galpon.webp) center/cover; transform-origin: 50% 60%; }
-  #shade { inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.25) 32%, rgba(0,0,0,.12) 55%, rgba(0,0,0,.45) 100%); }
+  #shade { inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.22) 30%, rgba(0,0,0,.10) 55%, rgba(0,0,0,.50) 100%); }
   #logoTop { right: 64px; top: 70px; width: 250px; }
   #title { left: 0; width: 1080px; top: 350px; text-align: center; }
   #toggle { position: relative; display: inline-block; height: 104px; width: 470px; border-radius: 52px; background: var(--orange); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
-  #togglePill { position: absolute; top: 0; height: 104px; width: 400px; right: 0; border-radius: 52px; background: #fff;
+  #togglePill { position: absolute; top: 0; height: 104px; width: 400px; right: 0; border-radius: 52px; background: #F4EEE7;
     display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 52px; letter-spacing: 6px; color: var(--black); padding-left: 6px; }
-  #subtitle { margin-top: 26px; color: #fff; font-weight: 700; font-size: 62px; letter-spacing: 7px; text-shadow: 0 4px 24px rgba(0,0,0,.55); white-space: nowrap; }
-  #card { left: 150px; top: 700px; width: 780px; height: 720px; border-radius: 56px; background: rgba(255,255,255,.13);
-    border: 2.5px solid rgba(255,255,255,.45); backdrop-filter: blur(16px) saturate(1.1); -webkit-backdrop-filter: blur(16px); box-shadow: 0 30px 60px rgba(0,0,0,.25); }
+  #subtitle { margin-top: 26px; color: #F6F0E8; font-weight: 700; font-size: 62px; letter-spacing: 7px; text-shadow: 0 4px 24px rgba(0,0,0,.55); white-space: nowrap; }
+  #card { left: 150px; top: 700px; width: 780px; height: 720px; border-radius: 56px; background: linear-gradient(160deg, rgba(255,236,215,.16), rgba(255,220,190,.07));
+    border: 2.5px solid rgba(255,235,215,.38); backdrop-filter: blur(16px) saturate(1.1); -webkit-backdrop-filter: blur(16px); box-shadow: 0 30px 60px rgba(0,0,0,.25); }
   #arrow { left: 44px; top: 40px; width: 64px; height: 64px; }
   .car { left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
-  .car img { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); max-width: 1010px; max-height: 640px; filter: drop-shadow(0 18px 18px rgba(0,0,0,.45)); }
+  .car img { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); max-width: 1010px; max-height: 640px; filter: drop-shadow(0 18px 18px rgba(40,18,5,.45)); }
   .car .shadow { position: absolute; left: 50%; bottom: -18px; width: 860px; height: 80px; transform: translateX(-50%); border-radius: 50%;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 70%); }
+    background: radial-gradient(ellipse at center, rgba(30,14,4,.65) 0%, rgba(30,14,4,0) 70%); }
   .carBox { position: absolute; left: 35px; width: 1010px; top: 640px; height: 670px; }
   #pill { left: 0; width: 1080px; top: 1330px; text-align: center; }
   .pill { display: inline-flex; align-items: center; gap: 22px; background: var(--orange); color: var(--black); border-radius: 60px;
     padding: 26px 56px 26px 44px; font-weight: 800; font-size: 46px; letter-spacing: 5px; box-shadow: 0 12px 30px rgba(0,0,0,.35); white-space: nowrap; }
   .tri { width: 0; height: 0; border-top: 20px solid transparent; border-bottom: 20px solid transparent; border-left: 30px solid var(--black); border-radius: 4px; }
-  #tap { width: 110px; height: 110px; margin: -55px 0 0 -55px; border-radius: 50%; background: rgba(255,255,255,.55); border: 5px solid #fff; box-shadow: 0 6px 20px rgba(0,0,0,.3); }
-  #trail { height: 22px; margin-top: -11px; border-radius: 11px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.6)); }
+  #hand { left: 0; top: 0; width: 270px; transform-origin: 88px 3px; filter: drop-shadow(-10px 24px 26px rgba(30,12,2,.45)); }
+  #ripple { width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 6px solid rgba(255,240,225,.9); }
   #burst { width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: var(--orange); }
 
   /* Escena 2 */
@@ -49,8 +49,14 @@
 
   /* Escena 3 */
   #s3 { inset: 0; background: radial-gradient(circle at 50% 46%, #2c2d2a 0%, var(--black) 60%); }
-  #logoBig { left: 170px; top: 700px; width: 740px; }
-  #slogan { left: 0; width: 1080px; top: 1150px; text-align: center; }
+  #logoBig { left: 290px; top: 790px; width: 500px; }
+  #slogan { left: 0; width: 1080px; top: 1072px; text-align: center; }
+  #slogan .pill { gap: 12px; padding: 14px 26px 14px 22px; letter-spacing: 1.5px; box-shadow: 0 8px 20px rgba(0,0,0,.35); }
+  #slogan .tri { border-top-width: 11px; border-bottom-width: 11px; border-left-width: 16px; }
+  /* Capa de color general: tono cálido unificado + viñeta + grano */
+  #grade1 { inset: 0; pointer-events: none; background: radial-gradient(ellipse 75% 60% at 50% 52%, rgba(0,0,0,0) 55%, rgba(20,8,0,.42) 100%), linear-gradient(rgba(255,150,70,.10), rgba(255,150,70,.10)); mix-blend-mode: multiply; }
+  #glow { inset: 0; pointer-events: none; background: radial-gradient(ellipse 60% 40% at 50% 8%, rgba(255,210,160,.18), rgba(255,210,160,0) 70%); mix-blend-mode: screen; }
+  #grain { left: -200px; top: -200px; width: 1480px; height: 2320px; background: url(grain.png); opacity: .07; mix-blend-mode: overlay; pointer-events: none; }
   #fade { inset: 0; background: #000; }
 </style>
 </head>
@@ -71,9 +77,10 @@
     </div>
     <div id="cars"></div>
     <div id="pill" class="abs"><span class="pill"><span class="tri"></span>RECIBIMOS TU USADO</span></div>
-    <div id="trail" class="abs"></div>
-    <div id="tap" class="abs"></div>
+    <div id="ripple" class="abs"></div>
+    <img id="hand" class="abs" src="../assets/mano-grade.png">
     <div id="burst" class="abs"></div>
+    <div id="grade1" class="abs"></div>
   </div>
 
   <div id="s2" class="abs">
@@ -94,6 +101,8 @@
     <img id="logoBig" class="abs" src="../assets/brand/logo-rodados-blanco.png">
     <div id="slogan" class="abs"><span class="pill"><span class="tri"></span>MÁS QUE AUTOS, SOLUCIONES</span></div>
   </div>
+  <div id="glow" class="abs"></div>
+  <div id="grain" class="abs"></div>
   <div id="fade" class="abs"></div>
 </div>
 
@@ -116,7 +125,7 @@ const carsEl = $('cars');
 const carEls = CARS.map(name => {
   const d = document.createElement('div');
   d.className = 'car abs';
-  d.innerHTML = `<div class="carBox"><div class="shadow"></div><img src="../assets/autos/finales/${name}.png"></div>`;
+  d.innerHTML = `<div class="carBox"><div class="shadow"></div><img src="../assets/autos/grade/${name}.png"></div>`;
   carsEl.appendChild(d);
   return d;
 });
@@ -130,6 +139,31 @@ const T = {
   s2: 9.35,                 // empieza escena 2
   s3: 12.6,                 // empieza escena 3
 };
+
+// Poses de la mano [tiempo, x, y, escala, rotación]; x,y = punta del dedo
+const PRESS_Y = 1080, HOVER_Y = 1210, RIGHT = 820, LEFT = 300;
+const HAND_KF = (() => {
+  const k = [[T.swipes[0] - 0.75, RIGHT + 40, 2150, 1.04, 4], [T.swipes[0] - 0.22, RIGHT, HOVER_Y, 1.04, 0], [T.swipes[0] - 0.02, RIGHT, PRESS_Y, 0.95, 0]];
+  T.swipes.forEach((sw, i) => {
+    k.push([sw + T.swipeDur, LEFT, PRESS_Y, 0.95, -9], [sw + T.swipeDur + 0.2, LEFT - 10, HOVER_Y - 40, 1.02, -5]);
+    const n = T.swipes[i + 1];
+    if (n) k.push([n - 0.25, RIGHT, HOVER_Y, 1.04, 0], [n - 0.02, RIGHT, PRESS_Y, 0.95, 0]);
+  });
+  k.push([T.tapEnd - 0.3, 600, HOVER_Y + 40, 1.04, 0], [T.tapEnd - 0.02, 600, 1130, 0.95, 0], [T.tapEnd + 0.12, 600, 1140, 0.96, 0], [T.s2, 650, 2150, 1.0, 3]);
+  return k;
+})();
+function handPose(t) {
+  const k = HAND_KF;
+  if (t <= k[0][0]) return { x: k[0][1], y: k[0][2], s: k[0][3], r: k[0][4] };
+  for (let i = 1; i < k.length; i++) {
+    if (t <= k[i][0]) {
+      const p = eInOut(prog(t, k[i - 1][0], k[i][0]));
+      return { x: lerp(k[i - 1][1], k[i][1], p), y: lerp(k[i - 1][2], k[i][2], p), s: lerp(k[i - 1][3], k[i][3], p), r: lerp(k[i - 1][4], k[i][4], p) };
+    }
+  }
+  const l = k[k.length - 1];
+  return { x: l[1], y: l[2], s: l[3], r: l[4] };
+}
 
 function carX(i, t) {
   // posición horizontal del auto i (0 = centrado)
@@ -168,29 +202,17 @@ function render(t) {
   const pl = eBack(prog(t, 1.7, 2.2));
   css($('pill'), { opacity: prog(t, 1.7, 1.85), transform: `scale(${lerp(.6, 1, pl)})` });
 
-  // Gesto de deslizar: un "dedo" que aprieta y arrastra a la izquierda en cada swipe
-  let tapO = 0, tapX = 0, tapY = 1080, tapS = 1, trailW = 0;
-  for (const s of T.swipes) {
-    const a = s - 0.35, b = s + T.swipeDur + 0.15;
-    if (t >= a && t <= b) {
-      const appear = prog(t, a, s - 0.1), drag = eInOut(prog(t, s, s + T.swipeDur)), gone = prog(t, s + T.swipeDur - 0.05, b);
-      tapO = appear * (1 - gone);
-      tapX = lerp(800, 300, drag);
-      tapS = lerp(1.25, 0.9, appear) * (1 - 0.1 * gone);
-      trailW = Math.max(0, 800 - tapX) * (1 - gone);
-    }
+  // Mano: entra desde abajo, arrastra cada auto a la izquierda, vuelve y hace el toque final
+  const h = handPose(t);
+  css($('hand'), { left: `${h.x - 88}px`, top: `${h.y - 3}px`, transform: `rotate(${h.r}deg) scale(${h.s})`, display: h.y > 1950 ? 'none' : 'block' });
+  let rip = 0, rx = 0, ry = 0;
+  for (const p of [...T.swipes, T.tapEnd]) {
+    if (t >= p - 0.02 && t < p + 0.45) { rip = prog(t, p - 0.02, p + 0.45); rx = p === T.tapEnd ? 600 : 820; ry = p === T.tapEnd ? 1130 : 1080; }
   }
-  // toque final sobre el último auto + círculo naranja que tapa la pantalla
-  const ta = T.tapEnd - 0.4;
-  if (t >= ta && t < T.s2) {
-    tapO = prog(t, ta, T.tapEnd - 0.15) * (1 - prog(t, T.tapEnd + 0.05, T.tapEnd + 0.2));
-    tapX = 600; tapY = 1130;
-    tapS = lerp(1.25, 0.85, eOut(prog(t, ta, T.tapEnd)));
-  }
-  css($('tap'), { opacity: tapO, left: `${tapX}px`, top: `${tapY}px`, transform: `scale(${tapS})` });
-  css($('trail'), { opacity: tapO * .8, left: `${tapX}px`, top: `${tapY}px`, width: `${trailW}px` });
+  css($('ripple'), { left: `${rx}px`, top: `${ry}px`, opacity: rip > 0 ? .85 * (1 - rip) : 0, transform: `scale(${lerp(.3, 1.7, eOut(rip))})` });
   const bp = prog(t, T.tapEnd, T.s2);
   css($('burst'), { left: '600px', top: '1130px', opacity: t >= T.tapEnd ? 1 : 0, transform: `scale(${lerp(0.3, 46, Math.pow(bp, 1.6))})` });
+  css($('grade1'), { opacity: 1 - eOut(bp) });
   css($('s1'), { display: t >= T.s2 ? 'none' : 'block' });
 
   // ---------- Escena 2 ----------
@@ -217,12 +239,24 @@ function render(t) {
   css($('slogan'), { opacity: prog(t, T.s3 + 1.0, T.s3 + 1.15), transform: `scale(${lerp(.5, 1, sg)})` });
   css($('logoBig'), { filter: `drop-shadow(0 0 ${lerp(0, 40, Math.sin(prog(t, T.s3 + 1.2, DURATION) * Math.PI))}px rgba(255,127,0,.35))` });
 
+  const g = Math.floor(t * 30) * 7919 % 400;
+  css($('grain'), { transform: `translate(${g % 200}px, ${(g * 3) % 200}px)` });
   css($('fade'), { opacity: Math.max(prog(t, DURATION - 0.35, DURATION), 1 - prog(t, 0, 0.25)) });
+}
+
+// El recuadro del slogan nunca más ancho que el logo (se mide con las fuentes ya cargadas)
+function fitSlogan() {
+  const s3 = $('s3'), prev = s3.style.display, pill = document.querySelector('#slogan .pill');
+  s3.style.display = 'block';
+  const max = $('logoBig').offsetWidth * 0.96;
+  let fs = 40; pill.style.fontSize = fs + 'px';
+  while (pill.offsetWidth > max && fs > 10) pill.style.fontSize = (fs -= 0.5) + 'px';
+  s3.style.display = prev;
 }
 
 window.DURATION = DURATION;
 window.render = render;
-window.ready = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))]);
+window.ready = Promise.all([document.fonts.ready.then(() => fitSlogan()), ...[...document.images].map(i => i.decode().catch(() => {}))]);
 
 // Vista previa en navegador: reproduce en loop
 if (!navigator.webdriver) {
