@@ -23,7 +23,8 @@
   .tri { width: 0; height: 0; border-top: 16px solid transparent; border-bottom: 16px solid transparent; border-left: 24px solid currentColor; border-radius: 3px; }
 
   /* Escena 1: hook */
-  #s1bg { inset: 0; background: url(../assets/fondo-galpon.webp) center/cover; filter: brightness(.5) saturate(.85); transform-origin: 50% 40%; }
+  #s1bg { inset: 0; background: url(../assets/fondos/interior-citroen.webp) 30% 40%/cover; filter: brightness(.55) contrast(1.1) saturate(.8); transform-origin: 40% 45%; }
+  #s1warm { inset: 0; background: radial-gradient(ellipse 70% 45% at 40% 45%, rgba(255,127,0,.35), rgba(255,127,0,0) 70%); mix-blend-mode: overlay; }
   #s1shade { inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.2) 62%, rgba(0,0,0,.35) 100%); }
   #wedge { inset: 0; clip-path: polygon(0 79%, 100% 63%, 100% 100%, 0 100%); background: linear-gradient(165deg, #FFA43D 0%, #FF7F00 35%, #D45A00 100%); }
   #wedgeLine { inset: 0; clip-path: polygon(0 77.6%, 100% 61.6%, 100% 62.3%, 0 78.3%); background: var(--white); }
@@ -36,9 +37,12 @@
   #okm .o { color: transparent; -webkit-text-stroke: 5px var(--orange); }
   #okm .f { position: absolute; left: 0; top: 0; width: 100%; background: linear-gradient(180deg, #FFB25A 0%, #FF7F00 55%, #E06400 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   #car1 .carBox { top: 1010px; height: 640px; }
+  #car1 img { width: 1000px; }
 
   /* Escena 2: logo */
-  #s2 { background: radial-gradient(ellipse 80% 55% at 50% 45%, #4a2306 0%, #160b03 55%, #000 100%); }
+  #s2 { background: #000; }
+  #s2bg { inset: 0; background: url(../assets/fondos/aircross-ruta.webp) center/cover; filter: grayscale(.5) brightness(.6) contrast(1.1); transform-origin: 55% 60%; }
+  #s2tint { inset: 0; background: radial-gradient(ellipse 80% 55% at 50% 45%, rgba(120,52,0,.45) 0%, rgba(22,11,3,.6) 60%, rgba(0,0,0,.85) 100%); }
   #lines2 { left: -300px; top: -200px; width: 1680px; height: 2320px; opacity: .55; }
   #logo2 { left: 200px; top: 700px; width: 680px; }
   #slogan2 { left: 0; width: 1080px; top: 1090px; text-align: center; }
@@ -46,7 +50,7 @@
   #slogan2 .tri { border-top-width: 12px; border-bottom-width: 12px; border-left-width: 18px; }
 
   /* Escena 3: beneficios */
-  #s3bg { inset: 0; background: url(../assets/fondo-galpon.webp) center/cover; filter: grayscale(1) contrast(1.15) brightness(1.05); transform-origin: 60% 40%; }
+  #s3bg { inset: 0; background: url(../assets/fondos/tracker-rojo.webp) center top/cover; filter: grayscale(1) contrast(1.15) brightness(1.05); transform-origin: 60% 40%; }
   #s3tint { inset: 0; background: linear-gradient(200deg, #FFB347 0%, #FF7F00 45%, #B54A00 100%); mix-blend-mode: multiply; }
   #s3dark { inset: 0; clip-path: polygon(0 71%, 100% 44%, 100% 100%, 0 100%); background: linear-gradient(180deg, #0d0b09 0%, #000 100%); }
   #s3lines { left: 0; top: 0; width: 1080px; height: 1920px; }
@@ -88,6 +92,7 @@
 
   <div id="s1" class="abs scene">
     <div id="s1bg" class="abs"></div>
+    <div id="s1warm" class="abs"></div>
     <div id="s1shade" class="abs"></div>
     <div id="wedge" class="abs"></div>
     <div id="wedgeLine" class="abs"></div>
@@ -102,6 +107,8 @@
   </div>
 
   <div id="s2" class="abs scene">
+    <div id="s2bg" class="abs"></div>
+    <div id="s2tint" class="abs"></div>
     <svg id="lines2" class="abs" viewBox="0 0 1680 2320" fill="none" stroke="#FF7F00" stroke-width="3"></svg>
     <img id="logo2" class="abs" src="../assets/brand/logo-rodados-blanco.png">
     <div id="slogan2" class="abs"><span class="pill"><span class="tri"></span>MÁS QUE AUTOS, SOLUCIONES</span></div>
@@ -140,12 +147,13 @@
 
 <script>
 // Autos (PNG sin fondo). HERO va en el hook; BENEFITS[i].car en cada beneficio.
-const CAR_DIR = '../assets/autos/grade/';
-const HERO = 'toyota-rav4';
+// (rutas relativas a assets/autos/; los "grade/" son provisorios hasta tener los recortes 0km)
+const CAR_DIR = '../assets/autos/';
+const HERO = '0km-grade/chevrolet-tracker';
 const BENEFITS = [
-  { a: 'FINANCIACIÓN', b: 'A TASA FIJA', car: 'toyota-corolla' },
-  { a: '0% INTERÉS', b: 'EN CUOTAS', car: 'ford-territory' },
-  { a: 'ACEPTAMOS', b: 'TU USADO', car: 'toyota-sw4' },
+  { a: 'FINANCIACIÓN', b: 'A TASA FIJA', car: 'grade/toyota-corolla' },
+  { a: '0% INTERÉS', b: 'EN CUOTAS', car: 'grade/ford-territory' },
+  { a: 'ACEPTAMOS', b: 'TU USADO', car: 'grade/toyota-sw4' },
 ];
 const DURATION = 15.8;
 
@@ -257,6 +265,7 @@ function render(t) {
   show($('s2'), in2);
   if (in2) {
     const u = t - T.w1;
+    css($('s2bg'), { transform: `scale(${lerp(1.08, 1.18, u / (T.w2 - T.w1))}) translateX(${-u * 25}px)` });
     $('lines2').querySelectorAll('path').forEach((p, k) => draw(p, eOut(prog(u, 0.05 + k * 0.1, 0.9 + k * 0.1))));
     css($('lines2'), { transform: `translate(${-u * 20}px, ${u * 10}px)` });
     const lg = eBack(prog(u, 0.25, 0.85));
