@@ -1,5 +1,5 @@
 // Renderiza index.html cuadro por cuadro y lo codifica a MP4 con ffmpeg.
-// Uso: node render.mjs [salida.mp4] [--frames=1,2.5,9]  (con --frames exporta PNGs de prueba)
+// Uso: node render.mjs [salida.mp4] [--page=0km.html] [--frames=1,2.5,9]  (con --frames exporta PNGs de prueba)
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -10,10 +10,12 @@ const FPS = 30;
 const dir = path.dirname(fileURLToPath(import.meta.url));
 const out = process.argv.find(a => a.endsWith('.mp4')) || path.join(dir, 'rodados-financia.mp4');
 const framesArg = process.argv.find(a => a.startsWith('--frames='));
+const pageArg = process.argv.find(a => a.startsWith('--page='));
+const pageFile = pageArg ? pageArg.slice(7) : 'index.html';
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
-await page.goto(pathToFileURL(path.join(dir, 'index.html')).href);
+await page.goto(pathToFileURL(path.join(dir, pageFile)).href);
 await page.evaluate(() => window.ready);
 const duration = await page.evaluate(() => window.DURATION);
 
