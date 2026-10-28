@@ -142,22 +142,21 @@
 
 <script>
 // Autos 0km (PNG sin fondo, rutas relativas a assets/autos/) y fotos de fondo (assets/fondos/).
-// Cada beneficio lleva una foto a pantalla completa (photo) o un auto recortado (car).
-const CAR_DIR = '../assets/autos/';
+// Cada beneficio puede llevar una foto de fondo desenfocada (photo) y pasa uno o más autos recortados (cars).
+const CAR_DIR = '../assets/autos/0km-grade/';
 const PHOTO_DIR = '../assets/fondos/';
-const HERO = '0km-grade/chevrolet-tracker';
+const HERO = 'chevrolet-tracker';
 const BENEFITS = [
-  { a: 'FINANCIACIÓN', size: 104, b: 'A TASA FIJA', photo: 'aircross-ruta.webp' },
-  { a: '0%', size: 250, b: 'INTERÉS', photo: 'tracker-rojo.webp' },
-  { a: 'ACEPTAMOS', size: 120, b: 'TU USADO', car: '0km-grade/chevrolet-tracker' },
+  { a: 'FINANCIACIÓN', size: 104, b: 'A TASA FIJA', photo: 'aircross-ruta.webp', cars: ['peugeot-208', 'citroen-c3-aircross'] },
+  { a: '0%', size: 250, b: 'INTERÉS', photo: 'tracker-rojo.webp', cars: ['fiat-cronos', 'peugeot-2008'] },
+  { a: 'ACEPTAMOS', size: 120, b: 'TU USADO', cars: ['renault-kardian'] },
 ];
-const DURATION = 15.8;
+const DURATION = 17.8;
 
 // Línea de tiempo (segundos)
 const T = {
-  cuts: [3.9, 5.7, 12.35], // hook | logo | beneficios | cierre
-  beats: [5.85, 8.0, 10.15],
-  beatLen: 2.15,
+  cuts: [3.9, 5.7, 14.35], // hook | logo | beneficios | cierre
+  beats: [5.85, 8.85, 11.85],
 };
 
 // --- utilidades ---
@@ -311,13 +310,20 @@ function makeCar(holder, name, maxW, maxH) {
   return car;
 }
 const car1 = makeCar($('car1'), HERO, 1000, 640);
-const cars3 = BENEFITS.map(b => { if (!b.car) return null; const d = document.createElement('div'); d.className = 'car abs'; d.id = 'car3'; $('cars3').appendChild(d); return makeCar(d, b.car, 1020, 600); });
+// fin de cada beneficio y turnos de cada auto dentro de él
+const beatEnd = i => i < T.beats.length - 1 ? T.beats[i + 1] : T.cuts[2];
+const SLOTS = BENEFITS.flatMap((b, i) => b.cars.map((name, k) => {
+  const len = (beatEnd(i) - T.beats[i]) / b.cars.length;
+  return { name, s: T.beats[i] + k * len, e: T.beats[i] + (k + 1) * len };
+}));
+SLOTS[SLOTS.length - 1].e = Infinity;   // el último auto se queda hasta el cierre
+const cars3 = SLOTS.map(sl => { const d = document.createElement('div'); d.className = 'car abs'; d.id = 'car3'; $('cars3').appendChild(d); return makeCar(d, sl.name, 1020, 600); });
 const photos3 = BENEFITS.map(b => { if (!b.photo) return null; const d = document.createElement('div'); d.className = 'abs full bphoto'; d.style.backgroundImage = `url(${PHOTO_DIR + b.photo})`; $('bphotos').appendChild(d); return d; });
 // Las fotos entran y salen como un barrido rápido con desenfoque
 const photoX = (i, t) => {
-  const s = T.beats[i];
+  const s = T.beats[i], e = beatEnd(i);
   let x = i === 0 ? 0 : lerp(1080, 0, eOut(prog(t, s - .05, s + .45)));
-  if (i < T.beats.length - 1) x = lerp(x, -1080, eIn(prog(t, s + T.beatLen - .3, s + T.beatLen + .05)));
+  if (i < T.beats.length - 1) x = lerp(x, -1080, eIn(prog(t, e - .3, e + .05)));
   return x;
 };
 
@@ -328,16 +334,17 @@ function placeCar(car, x, vx, glareP, extraY = 0) {
   car.glare.style.opacity = glareP > 0 && glareP < 1 ? 1 : 0;
 }
 const heroX = t => lerp(1300, 0, eOut(prog(t, 1.95, 2.75))) - clamp(t - 2.75, 0, 2) * 10;
-const beatX = (i, t) => {
-  const s = T.beats[i];
+const slotX = (i, t) => {
+  const { s, e } = SLOTS[i];
   let x = lerp(1300, 0, eOut(prog(t, s + .05, s + .7)));
-  if (i < T.beats.length - 1) x = lerp(x, -1300, eIn(prog(t, s + T.beatLen - .3, s + T.beatLen + .05)));
+  if (e !== Infinity) x = lerp(x, -1300, eIn(prog(t, e - .3, e + .05)));
   return x - clamp(t - s - .7, 0, 2) * 10;
 };
 const vel = (f, t) => (f(t) - f(t - 1 / 30)) * 30;
 
 // Golpes: la estela se acelera cuando entra cada auto
-const tauBeats = t => t * .9 + T.beats.reduce((s, b) => s + 1.2 * eOut(prog(t, b, b + .9)), 0);
+const LANDS = SLOTS.map(sl => sl.s);
+const tauBeats = t => t * .9 + LANDS.reduce((s, b) => s + 1.2 * eOut(prog(t, b, b + .9)), 0);
 
 // ---------- Render ----------
 let lastBeat = -1;
@@ -393,20 +400,19 @@ function render(t) {
       $('ba').textContent = B.a; $('bb').textContent = B.b; split($('ba')); split($('bb'));
       $('ba').style.fontSize = B.size + 'px'; lastBeat = bi;
     }
-    const b = T.beats[bi], outA = bi === T.beats.length - 1 ? Infinity : b + T.beatLen - .32;
+    const b = T.beats[bi], outA = bi === T.beats.length - 1 ? Infinity : beatEnd(bi) - .32;
     neonLetters($('ba'), t, b + .05, B.a.length > 3 ? .03 : .1, .32, outA);
     neonLetters($('bb'), t, b + .25, .03, .3, outA + .05);
 
     photos3.forEach((ph, i) => {
       if (!ph) return;
       const f = tt => photoX(i, tt), x = f(t), vx = vel(f, t), s = T.beats[i];
-      css(ph, { display: Math.abs(x) >= 1080 ? 'none' : 'block', transform: `translateX(${x}px) scale(${lerp(1.14, 1.0, eOut(prog(t, s - .05, s + T.beatLen)))})`,
-        filter: `brightness(.95) contrast(1.05) saturate(1.05) blur(${Math.min(18, Math.abs(vx) / 500)}px)` });
+      css(ph, { display: Math.abs(x) >= 1080 ? 'none' : 'block', transform: `translateX(${x}px) scale(${lerp(1.18, 1.04, eOut(prog(t, s - .05, beatEnd(i))))})`,
+        filter: `brightness(.8) contrast(1.05) saturate(1.05) blur(${14 + Math.min(18, Math.abs(vx) / 500)}px)` });
     });
     cars3.forEach((car, i) => {
-      if (!car) return;
-      const f = tt => beatX(i, tt), x = f(t), vx = vel(f, t);
-      placeCar(car, x, vx, prog(t, T.beats[i] + .85, T.beats[i] + 1.5), Math.sin((t - T.beats[i]) * 2.4) * 3);
+      const s = SLOTS[i].s, f = tt => slotX(i, tt), x = f(t), vx = vel(f, t);
+      placeCar(car, x, vx, prog(t, s + .75, s + 1.35), Math.sin((t - s) * 2.4) * 3);
       if (Math.abs(x) < 1280) speedLines(sharpB, 17 + i, 18, 540 + x + (vx < 0 ? 140 : -1500), 880, 1360, 200 + Math.abs(vx) * .35, clamp(Math.abs(vx) / 2500), t);
     });
 
@@ -438,7 +444,7 @@ function render(t) {
 
   // destello de luz cálida que recorre la pantalla (más fuerte cuando aterriza cada auto)
   let pulse = 0;
-  for (const b of [1.95, ...T.beats]) pulse += Math.sin(prog(t, b + .45, b + 1.1) * Math.PI);
+  for (const b of [1.95, ...LANDS]) pulse += Math.sin(prog(t, b + .45, b + 1.1) * Math.PI);
   css($('leak'), { opacity: .28 + .12 * Math.sin(t * 1.3) + .3 * pulse,
     transform: `translate(${Math.sin(t * .55) * 380}px, ${Math.cos(t * .4) * 520 + 150}px) scale(${1.4 + .3 * Math.sin(t * .8)})` });
   bloom(back, sharpB);
@@ -458,7 +464,7 @@ function render(t) {
     zoom = t < c ? 1 + .1 * pre : 1 + .1 * post; blur = 9 * I;
   }
   // pequeño "golpe" de cámara cuando aterriza cada auto
-  for (const b of [1.95, ...T.beats]) zoom += .018 * Math.sin(prog(t, b + .55, b + .95) * Math.PI);
+  for (const b of [1.95, ...LANDS]) zoom += .018 * Math.sin(prog(t, b + .55, b + .95) * Math.PI);
   css($('world'), { transform: `scale(${zoom})`, filter: blur > .1 ? `blur(${blur}px)` : 'none' });
   bloom(front, sharpF);
 
