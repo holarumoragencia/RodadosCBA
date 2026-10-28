@@ -8,166 +8,154 @@
   @font-face { font-family: M; font-weight: 600; src: url(fonts/montserrat-latin-600-normal.woff2); }
   @font-face { font-family: M; font-weight: 700; src: url(fonts/montserrat-latin-700-normal.woff2); }
   @font-face { font-family: M; font-weight: 800; src: url(fonts/montserrat-latin-800-normal.woff2); }
-  :root { --orange: #FF7F00; --black: #1D1E1C; --white: #F3F2F3; }
+  :root { --orange: #FF7F00; --black: #1D1E1C; --white: #F3F2F3;
+    --neonW: 0 0 3px #fff, 0 0 14px rgba(255,170,90,.75), 0 0 34px rgba(255,127,0,.55), 0 0 70px rgba(255,110,0,.35);
+    --neonO: 0 0 3px #FFE7C8, 0 0 14px #FF9A2E, 0 0 36px #FF7F00, 0 0 80px rgba(255,100,0,.75), 0 0 140px rgba(255,90,0,.45); }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: M, sans-serif; }
   .abs { position: absolute; }
-  .scene { inset: 0; overflow: hidden; }
+  .full { left: 0; top: 0; width: 1080px; height: 1920px; }
   .ch { display: inline-block; white-space: pre; }
+  .neonW { color: #FFF8F0; text-shadow: var(--neonW); }
+  .neonO { color: #FFB55E; text-shadow: var(--neonO); }
+  .center { left: 0; width: 1080px; text-align: center; }
+
+  /* autos */
   .car { left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
-  .car img { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); max-width: 1020px; max-height: 620px; filter: drop-shadow(0 20px 18px rgba(20,8,0,.5)); }
-  .car .shadow { position: absolute; left: 50%; bottom: -20px; width: 880px; height: 84px; transform: translateX(-50%); border-radius: 50%;
-    background: radial-gradient(ellipse at center, rgba(10,4,0,.75) 0%, rgba(10,4,0,0) 70%); }
   .carBox { position: absolute; left: 30px; width: 1020px; }
-  .pill { display: inline-flex; align-items: center; gap: 20px; border-radius: 60px; padding: 22px 46px 22px 38px; font-weight: 800; font-size: 38px; letter-spacing: 3px; white-space: nowrap; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
-  .tri { width: 0; height: 0; border-top: 16px solid transparent; border-bottom: 16px solid transparent; border-left: 24px solid currentColor; border-radius: 3px; }
+  .floor { position: absolute; left: 50%; bottom: -70px; width: 1100px; height: 190px; transform: translateX(-50%); border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(255,140,30,.55) 0%, rgba(255,110,0,.22) 40%, rgba(255,110,0,0) 70%); mix-blend-mode: screen; }
+  .shadow { position: absolute; left: 50%; bottom: -22px; width: 860px; height: 80px; transform: translateX(-50%); border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,.85) 0%, rgba(0,0,0,0) 70%); }
+  .imgWrap { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); }
+  .imgWrap img { display: block; width: 100%; }
+  .glare { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(255,235,210,0) 42%, rgba(255,240,220,.6) 50%, rgba(255,235,210,0) 58%);
+    background-size: 320% 100%; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; mix-blend-mode: screen; }
+  .rim { position: absolute; inset: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; background: linear-gradient(180deg, rgba(255,140,40,0) 55%, rgba(255,140,40,.28) 100%); mix-blend-mode: screen; }
+
+  /* fondos */
+  #b1 { background: url(../assets/fondos/interior-citroen.webp) 30% 40%/cover; filter: brightness(.42) contrast(1.15) saturate(.7); transform-origin: 40% 45%; }
+  #b1shade { background: linear-gradient(180deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.45) 40%, rgba(0,0,0,.35) 65%, rgba(0,0,0,.85) 100%); }
+  #b2 { background: url(../assets/fondos/aircross-ruta.webp) center/cover; filter: grayscale(.5) brightness(.65) contrast(1.1); transform-origin: 55% 60%; }
+  #b2tint { background: radial-gradient(ellipse 60% 30% at 50% 46%, rgba(0,0,0,.65) 0%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(10,4,0,.75), rgba(40,14,0,.55) 50%, rgba(0,0,0,.9)); }
+  #b3 { background: radial-gradient(ellipse 90% 40% at 50% 72%, #2a1103 0%, #0c0603 55%, #000 100%); }
+  #b3haze { background: radial-gradient(ellipse 55% 25% at 85% 18%, rgba(255,110,0,.16), rgba(255,110,0,0) 70%); }
+  #b4 { background: radial-gradient(ellipse 90% 40% at 50% 100%, rgba(255,110,0,.30) 0%, rgba(255,110,0,0) 70%), radial-gradient(ellipse 70% 40% at 50% 40%, #241307 0%, #070403 70%); }
 
   /* Escena 1: hook */
-  #s1bg { inset: 0; background: url(../assets/fondos/interior-citroen.webp) 30% 40%/cover; filter: brightness(.55) contrast(1.1) saturate(.8); transform-origin: 40% 45%; }
-  #s1warm { inset: 0; background: radial-gradient(ellipse 70% 45% at 40% 45%, rgba(255,127,0,.35), rgba(255,127,0,0) 70%); mix-blend-mode: overlay; }
-  #s1shade { inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.2) 62%, rgba(0,0,0,.35) 100%); }
-  #wedge { inset: 0; clip-path: polygon(0 79%, 100% 63%, 100% 100%, 0 100%); background: linear-gradient(165deg, #FFA43D 0%, #FF7F00 35%, #D45A00 100%); }
-  #wedgeLine { inset: 0; clip-path: polygon(0 77.6%, 100% 61.6%, 100% 62.3%, 0 78.3%); background: var(--white); }
-  #logo1 { left: 410px; top: 190px; width: 260px; }
-  #hook { left: 0; width: 1080px; top: 395px; text-align: center; }
-  #q { color: var(--white); font-weight: 800; font-size: 78px; letter-spacing: 4px; text-shadow: 0 6px 24px rgba(0,0,0,.6); }
-  #band { display: inline-block; margin-top: 14px; background: var(--orange); color: var(--black); font-weight: 800; font-size: 58px; letter-spacing: 3px; padding: 6px 30px 4px; transform: rotate(-3deg); box-shadow: 0 10px 26px rgba(0,0,0,.4); }
-  #l3 { margin-top: 18px; color: var(--white); font-weight: 800; font-size: 108px; letter-spacing: 2px; line-height: 1.05; text-shadow: 0 6px 24px rgba(0,0,0,.6); }
-  #okm { position: relative; display: inline-block; font-weight: 800; font-size: 300px; line-height: .92; letter-spacing: 4px; }
-  #okm .o { color: transparent; -webkit-text-stroke: 5px var(--orange); }
-  #okm .f { position: absolute; left: 0; top: 0; width: 100%; background: linear-gradient(180deg, #FFB25A 0%, #FF7F00 55%, #E06400 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #logo1 { left: 410px; top: 190px; width: 260px; filter: drop-shadow(0 0 12px rgba(255,127,0,.55)); }
+  #hook { top: 395px; }
+  #q { font-weight: 800; font-size: 80px; letter-spacing: 5px; }
+  #band { margin-top: 12px; font-weight: 800; font-size: 56px; letter-spacing: 9px; }
+  #l3 { margin-top: 10px; font-weight: 800; font-size: 110px; letter-spacing: 3px; line-height: 1.05; }
+  #okm { font-weight: 800; font-size: 310px; line-height: .95; letter-spacing: 6px; }
   #car1 .carBox { top: 1010px; height: 640px; }
-  #car1 img { width: 1000px; }
 
   /* Escena 2: logo */
-  #s2 { background: #000; }
-  #s2bg { inset: 0; background: url(../assets/fondos/aircross-ruta.webp) center/cover; filter: grayscale(.5) brightness(.6) contrast(1.1); transform-origin: 55% 60%; }
-  #s2tint { inset: 0; background: radial-gradient(ellipse 80% 55% at 50% 45%, rgba(120,52,0,.45) 0%, rgba(22,11,3,.6) 60%, rgba(0,0,0,.85) 100%); }
-  #lines2 { left: -300px; top: -200px; width: 1680px; height: 2320px; opacity: .55; }
   #logo2 { left: 200px; top: 700px; width: 680px; }
-  #slogan2 { left: 0; width: 1080px; top: 1090px; text-align: center; }
-  #slogan2 .pill { background: var(--orange); color: var(--black); font-size: 32px; padding: 16px 34px 16px 28px; gap: 14px; }
-  #slogan2 .tri { border-top-width: 12px; border-bottom-width: 12px; border-left-width: 18px; }
+  #slogan2 { top: 1100px; font-weight: 700; font-size: 34px; letter-spacing: 8px; }
 
   /* Escena 3: beneficios */
-  #s3bg { inset: 0; background: url(../assets/fondos/tracker-rojo.webp) center top/cover; filter: grayscale(1) contrast(1.15) brightness(1.05); transform-origin: 60% 40%; }
-  #s3tint { inset: 0; background: linear-gradient(200deg, #FFB347 0%, #FF7F00 45%, #B54A00 100%); mix-blend-mode: multiply; }
-  #s3dark { inset: 0; clip-path: polygon(0 71%, 100% 44%, 100% 100%, 0 100%); background: linear-gradient(180deg, #0d0b09 0%, #000 100%); }
-  #s3lines { left: 0; top: 0; width: 1080px; height: 1920px; }
-  #s3edge { inset: 0; clip-path: polygon(0 70.4%, 100% 43.4%, 100% 44%, 0 71%); background: var(--orange); }
-  #tags { left: 70px; top: 360px; transform: rotate(-6deg); transform-origin: 0 50%; }
-  .tag { display: block; width: max-content; font-weight: 800; white-space: nowrap; box-shadow: 0 14px 30px rgba(0,0,0,.35); }
-  #tag1 { background: var(--white); color: var(--black); font-size: 96px; letter-spacing: 2px; padding: 4px 36px 0; }
-  #tag2 { margin-top: 18px; margin-left: 40px; background: var(--black); color: var(--orange); font-size: 78px; letter-spacing: 6px; padding: 6px 36px 2px; }
+  #btext { top: 330px; }
+  #ba { font-weight: 800; line-height: 1; letter-spacing: 3px; }
+  #bb { margin-top: 18px; font-weight: 800; font-size: 72px; letter-spacing: 12px; }
   #car3 .carBox { top: 770px; height: 600px; }
-  #bar { left: 70px; top: 1440px; display: flex; transform: skewX(-12deg); filter: drop-shadow(0 12px 22px rgba(0,0,0,.45)); }
-  #barA { width: 130px; height: 112px; background: var(--orange); display: flex; align-items: center; justify-content: center; }
-  #barA svg { transform: skewX(12deg); width: 64px; height: 64px; }
-  #barB { height: 112px; background: var(--white); display: flex; align-items: center; padding: 0 36px; overflow: hidden; }
-  #barB span { display: block; transform: skewX(12deg); color: var(--black); font-weight: 800; font-size: 40px; letter-spacing: 1.5px; white-space: nowrap; line-height: 1.12; }
-  #barB b { color: var(--orange); font-weight: 800; }
+  #pat { top: 1430px; }
+  #patLine { left: 220px; top: 1418px; width: 640px; height: 3px; background: linear-gradient(90deg, rgba(255,180,100,0), #FFD3A0 50%, rgba(255,180,100,0)); box-shadow: 0 0 14px #FF7F00, 0 0 30px rgba(255,127,0,.6); }
+  #pat1 { display: inline-flex; align-items: center; gap: 16px; font-weight: 700; font-size: 34px; letter-spacing: 7px; }
+  #pat1 svg { width: 44px; height: 44px; filter: drop-shadow(0 0 6px #FF7F00) drop-shadow(0 0 16px rgba(255,127,0,.7)); }
+  #pat2 { margin-top: 8px; font-weight: 800; font-size: 66px; letter-spacing: 9px; }
 
   /* Escena 4: cierre */
-  #s4 { background: radial-gradient(ellipse 90% 45% at 50% 100%, rgba(255,127,0,.42) 0%, rgba(255,127,0,0) 70%), radial-gradient(ellipse 70% 40% at 50% 38%, #2c2d2a 0%, #121211 70%); }
-  #lines4 { left: 0; top: 0; width: 1080px; height: 1920px; }
-  #logo4 { left: 255px; top: 560px; width: 570px; }
-  #cta { left: 0; width: 1080px; top: 900px; text-align: center; color: var(--white); font-weight: 700; font-size: 58px; letter-spacing: 1px; }
-  #pills4 { left: 0; width: 1080px; top: 1010px; display: flex; flex-direction: column; align-items: center; gap: 26px; }
-  #p4a { background: var(--white); color: var(--black); }
-  #p4b { background: var(--orange); color: var(--black); }
-  #p4a svg { width: 42px; height: 42px; }
+  #logo4 { left: 255px; top: 520px; width: 570px; }
+  #cta { top: 1000px; font-weight: 600; font-size: 54px; letter-spacing: 1px; }
+  #web { top: 1095px; font-weight: 700; font-size: 60px; letter-spacing: 3px; }
+  #webLine { left: 190px; top: 1185px; width: 700px; height: 3px; background: linear-gradient(90deg, rgba(255,180,100,0), #FFD3A0 50%, rgba(255,180,100,0)); box-shadow: 0 0 14px #FF7F00, 0 0 30px rgba(255,127,0,.6); }
+  #slogan4 { top: 1225px; font-weight: 700; font-size: 30px; letter-spacing: 7px; color: rgba(243,242,243,.85); }
 
-  /* Transición: barras diagonales */
-  #wipe { left: 50%; top: 50%; width: 2100px; height: 3600px; margin: -1800px 0 0 -1050px;
-    background: linear-gradient(90deg, var(--white) 0 46px, transparent 46px 86px, var(--orange) 86px 2014px, transparent 2014px 2054px, var(--black) 2054px 2100px); }
-
-  #glow { inset: 0; pointer-events: none; background: radial-gradient(ellipse 60% 40% at 50% 6%, rgba(255,210,160,.14), rgba(255,210,160,0) 70%); mix-blend-mode: screen; }
-  #vig { inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 62% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,.38) 100%); }
-  #grain { left: -200px; top: -200px; width: 1480px; height: 2320px; background: url(grain.png); opacity: .07; mix-blend-mode: overlay; pointer-events: none; }
-  #fade { inset: 0; background: #000; }
+  #vig { pointer-events: none; background: radial-gradient(ellipse 80% 62% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,.45) 100%); }
+  #grain { left: -200px; top: -200px; width: 1480px; height: 2320px; background: url(grain.png); opacity: .06; mix-blend-mode: overlay; pointer-events: none; }
+  #fade { background: #000; }
 </style>
 </head>
 <body>
-<div id="stage" class="abs" style="left:0;top:0;width:1080px;height:1920px;overflow:hidden">
+<svg width="0" height="0" style="position:absolute">
+  <defs id="defs"></defs>
+</svg>
+<div id="stage" class="abs full" style="overflow:hidden">
+ <div id="world" class="abs full">
+  <!-- fondos -->
+  <div id="g1" class="abs full"><div id="b1" class="abs full"></div><div id="b1shade" class="abs full"></div></div>
+  <div id="g2" class="abs full"><div id="b2" class="abs full"></div><div id="b2tint" class="abs full"></div></div>
+  <div id="g3" class="abs full"><div id="b3" class="abs full"></div><div id="b3haze" class="abs full"></div></div>
+  <div id="g4" class="abs full"><div id="b4" class="abs full"></div></div>
 
-  <div id="s1" class="abs scene">
-    <div id="s1bg" class="abs"></div>
-    <div id="s1warm" class="abs"></div>
-    <div id="s1shade" class="abs"></div>
-    <div id="wedge" class="abs"></div>
-    <div id="wedgeLine" class="abs"></div>
+  <!-- estelas de luz (detrás del contenido) -->
+  <canvas id="fxBack" class="abs full" width="1080" height="1920"></canvas>
+
+  <!-- contenido -->
+  <div id="s1" class="abs full">
     <img id="logo1" class="abs" src="../assets/brand/logo-rodados-blanco.png">
-    <div id="hook" class="abs">
-      <div id="q" class="split">¿QUERÉS</div>
-      <div id="band">RENOVAR O TENER</div>
-      <div id="l3" class="split">TU PRIMER</div>
-      <div id="okm"><span class="o">0KM</span><span class="f">0KM</span></div>
+    <div id="hook" class="abs center">
+      <div id="q" class="neonW split">¿QUERÉS</div>
+      <div id="band" class="neonO split">RENOVAR O TENER</div>
+      <div id="l3" class="neonW split">TU PRIMER</div>
+      <div id="okm" class="neonO split">0KM</div>
     </div>
-    <div id="car1" class="car abs"><div class="carBox"><div class="shadow"></div><img></div></div>
+    <div id="car1" class="car abs"></div>
   </div>
 
-  <div id="s2" class="abs scene">
-    <div id="s2bg" class="abs"></div>
-    <div id="s2tint" class="abs"></div>
-    <svg id="lines2" class="abs" viewBox="0 0 1680 2320" fill="none" stroke="#FF7F00" stroke-width="3"></svg>
+  <div id="s2" class="abs full">
     <img id="logo2" class="abs" src="../assets/brand/logo-rodados-blanco.png">
-    <div id="slogan2" class="abs"><span class="pill"><span class="tri"></span>MÁS QUE AUTOS, SOLUCIONES</span></div>
+    <div id="slogan2" class="abs center neonW split">MÁS QUE AUTOS, SOLUCIONES</div>
   </div>
 
-  <div id="s3" class="abs scene">
-    <div id="s3bg" class="abs"></div>
-    <div id="s3tint" class="abs"></div>
-    <div id="s3dark" class="abs"></div>
-    <svg id="s3lines" class="abs" viewBox="0 0 1080 1920" fill="none" stroke="#FF7F00" stroke-width="3" stroke-linecap="round"></svg>
-    <div id="s3edge" class="abs"></div>
-    <div id="tags" class="abs"><span id="tag1" class="tag"></span><span id="tag2" class="tag"></span></div>
+  <div id="s3" class="abs full">
+    <div id="btext" class="abs center"><div id="ba" class="neonW"></div><div id="bb" class="neonO"></div></div>
     <div id="cars3"></div>
-    <div id="bar" class="abs">
-      <div id="barA"><svg viewBox="0 0 64 64" fill="none" stroke="#1D1E1C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path id="check" d="M12 34 L26 48 L53 17"/></svg></div>
-      <div id="barB"><span>NOS OCUPAMOS DEL<br><b>PATENTAMIENTO</b></span></div>
+    <div id="patLine" class="abs"></div>
+    <div id="pat" class="abs center">
+      <div id="pat1" class="neonW"><svg viewBox="0 0 48 48" fill="none" stroke="#FFD9AE" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20" stroke-width="3.5"/><path id="check" d="M14 25 L21 32 L34 17"/></svg><span class="split">NOS OCUPAMOS DEL</span></div>
+      <div id="pat2" class="neonO split">PATENTAMIENTO</div>
     </div>
   </div>
 
-  <div id="s4" class="abs scene">
-    <svg id="lines4" class="abs" viewBox="0 0 1080 1920" fill="none" stroke="#FF7F00" stroke-width="3" stroke-linecap="round"></svg>
+  <div id="s4" class="abs full">
     <img id="logo4" class="abs" src="../assets/brand/logo-rodados-blanco.png">
-    <div id="cta" class="abs split">No dudes en consultar</div>
-    <div id="pills4" class="abs">
-      <span id="p4a" class="pill"><svg viewBox="0 0 48 48" fill="none" stroke="#1D1E1C" stroke-width="4.5" stroke-linejoin="round"><path d="M8 10 H40 Q43 10 43 13 V31 Q43 34 40 34 H22 L13 42 V34 H8 Q5 34 5 31 V13 Q5 10 8 10 Z"/><circle cx="15" cy="22" r="1.5" fill="#1D1E1C"/><circle cx="24" cy="22" r="1.5" fill="#1D1E1C"/><circle cx="33" cy="22" r="1.5" fill="#1D1E1C"/></svg>ESCRIBINOS POR MENSAJE</span>
-      <span id="p4b" class="pill"><span class="tri"></span>MÁS QUE AUTOS, SOLUCIONES</span>
-    </div>
+    <div id="cta" class="abs center neonW split">No dudes en consultar</div>
+    <div id="web" class="abs center neonO split">rodadoscordoba.com</div>
+    <div id="webLine" class="abs"></div>
+    <div id="slogan4" class="abs center split">MÁS QUE AUTOS, SOLUCIONES</div>
   </div>
+ </div>
 
-  <div id="wipe" class="abs"></div>
-  <div id="glow" class="abs"></div>
-  <div id="vig" class="abs"></div>
+  <!-- rayos de velocidad y destello de las transiciones (encima de todo) -->
+  <canvas id="fxFront" class="abs full" width="1080" height="1920"></canvas>
+  <div id="vig" class="abs full"></div>
   <div id="grain" class="abs"></div>
-  <div id="fade" class="abs"></div>
+  <div id="fade" class="abs full"></div>
 </div>
 
 <script>
-// Autos (PNG sin fondo). HERO va en el hook; BENEFITS[i].car en cada beneficio.
-// (rutas relativas a assets/autos/; los "grade/" son provisorios hasta tener los recortes 0km)
+// Autos (PNG sin fondo), rutas relativas a assets/autos/. Los "grade/" son provisorios hasta tener los recortes 0km.
 const CAR_DIR = '../assets/autos/';
 const HERO = '0km-grade/chevrolet-tracker';
 const BENEFITS = [
-  { a: 'FINANCIACIÓN', b: 'A TASA FIJA', car: 'grade/toyota-corolla' },
-  { a: '0% INTERÉS', b: 'EN CUOTAS', car: 'grade/ford-territory' },
-  { a: 'ACEPTAMOS', b: 'TU USADO', car: 'grade/toyota-sw4' },
+  { a: 'FINANCIACIÓN', size: 104, b: 'A TASA FIJA', car: 'grade/toyota-corolla' },
+  { a: '0%', size: 250, b: 'INTERÉS', car: 'grade/ford-territory' },
+  { a: 'ACEPTAMOS', size: 120, b: 'TU USADO', car: 'grade/toyota-sw4' },
 ];
 const DURATION = 15.8;
 
 // Línea de tiempo (segundos)
 const T = {
-  w1: 3.9,                  // hook -> logo
-  w2: 5.7,                  // logo -> beneficios
+  cuts: [3.9, 5.7, 12.35], // hook | logo | beneficios | cierre
   beats: [5.85, 8.0, 10.15],
   beatLen: 2.15,
-  w3: 12.35,                // beneficios -> cierre
-  wipeDur: 0.6,
 };
 
-// --- utilidades de animación ---
+// --- utilidades ---
+const W = 1080, H = 1920;
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const prog = (t, a, b) => clamp((t - a) / (b - a));
 const lerp = (a, b, p) => a + (b - a) * p;
@@ -175,188 +163,293 @@ const eOut = p => 1 - Math.pow(1 - p, 3);
 const eIn = p => p * p * p;
 const eInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
 const eBack = p => { const c = 1.70158, c3 = c + 1; return 1 + c3 * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const hash = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const rng = seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 const $ = id => document.getElementById(id);
 const css = (el, o) => Object.assign(el.style, o);
 const show = (el, on) => { el.style.display = on ? 'block' : 'none'; };
+// Encendido tipo neón: parpadea mientras p < 1
+const flick = (p, k, t) => p >= 1 ? 1 : p * (hash(Math.floor(t * 30) * 13 + k * 7) > 0.3 ? 1 : 0.2);
 
-// Letras separadas para animarlas de a una
-document.querySelectorAll('.split').forEach(el => {
-  el.innerHTML = [...el.textContent].map(c => `<span class="ch">${c}</span>`).join('');
-});
-const chars = id => [...$(id).querySelectorAll('.ch')];
+function split(el) { el.innerHTML = [...el.textContent].map(c => `<span class="ch">${c}</span>`).join(''); }
+document.querySelectorAll('.split').forEach(split);
+const chars = el => [...el.querySelectorAll('.ch')];
 
-// Autos
-$('car1').querySelector('img').src = CAR_DIR + HERO + '.png';
-const car3Els = BENEFITS.map(b => {
-  const d = document.createElement('div');
-  d.className = 'car abs';
-  d.id = 'car3';
-  d.innerHTML = `<div class="carBox"><div class="shadow"></div><img src="${CAR_DIR + b.car}.png"></div>`;
-  $('cars3').appendChild(d);
-  return d;
-});
-
-// Líneas diagonales (eco de los chevrones de la referencia, con la diagonal de la marca)
-function chevrons(svg, groups) {
-  svg.innerHTML = groups.map(([x, y, s, n, gap, op]) => {
-    let d = '';
-    for (let k = 0; k < n; k++) {
-      const o = k * gap;
-      d += `M${x - 160 * s + o} ${y - 420 * s} L${x + o} ${y} L${x + 160 * s + o} ${y - 420 * s} `;
-    }
-    return `<path d="${d}" opacity="${op}"/>`;
-  }).join('');
+// Letras que se encienden (blur + escala + parpadeo) y opcionalmente salen barridas a la izquierda
+function neonLetters(el, t, start, step = 0.035, dur = 0.35, outAt = Infinity) {
+  chars(el).forEach((c, k) => {
+    const p = eOut(prog(t, start + k * step, start + k * step + dur));
+    const q = outAt === Infinity ? 0 : eIn(prog(t, outAt + k * 0.015, outAt + k * 0.015 + 0.25));
+    css(c, { opacity: flick(p, k, t) * (1 - q), transform: `translateX(${-320 * q}px) scale(${lerp(1.35, 1, p)})`,
+      filter: `blur(${lerp(10, 0, p) + 14 * q}px)` });
+  });
 }
-chevrons($('lines2'), [[840, 2050, 2.6, 4, 70, .55], [840, 1100, 2.2, 3, 70, .25]]);
-chevrons($('s3lines'), [[420, 1950, 1.25, 4, 52, .9], [860, 1990, 1.0, 3, 52, .55]]);
-chevrons($('lines4'), [[150, 520, 1.1, 4, 48, .55], [930, 2060, 1.1, 4, 48, .55]]);
-document.querySelectorAll('svg path').forEach(p => { try { p.dataset.len = p.getTotalLength(); } catch (e) {} });
-const draw = (p, v) => { const L = +p.dataset.len; p.style.strokeDasharray = L; p.style.strokeDashoffset = L * (1 - v); };
 
-// Barras diagonales: tapan toda la pantalla justo en el corte
-function wipe(t) {
-  for (const c of [T.w1, T.w2, T.w3]) {
-    const p = prog(t, c - T.wipeDur / 2, c + T.wipeDur / 2);
-    if (p > 0 && p < 1) {
-      const x = lerp(2700, -2700, eInOut(p));
-      return css($('wipe'), { display: 'block', transform: `translateX(${x}px) rotate(14deg)` });
+// ---------- Estelas de luz ----------
+const COLORS = [[255, 127, 0], [255, 150, 40], [255, 186, 96], [255, 95, 0], [255, 212, 150]];
+function makeTrail(xs, ys, r) {
+  const n = xs.length, cum = new Float32Array(n);
+  for (let i = 1; i < n; i++) cum[i] = cum[i - 1] + Math.hypot(xs[i] - xs[i - 1], ys[i] - ys[i - 1]);
+  return { xs, ys, cum, len: cum[n - 1], w: 1.5 + r() * 4.5, c: COLORS[Math.floor(r() * COLORS.length)],
+    speed: .22 + r() * .35, phase: r() * 1.6, tail: .16 + r() * .26, base: .05 + r() * .12, bright: .55 + r() * .45, comets: r() < .45 ? 2 : 1 };
+}
+function arcPts(cx, cy, rx, ry, a0, a1, rot, n = 180) {
+  const xs = [], ys = [], cr = Math.cos(rot * Math.PI / 180), sr = Math.sin(rot * Math.PI / 180);
+  for (let i = 0; i < n; i++) {
+    const a = (a0 + (a1 - a0) * i / (n - 1)) * Math.PI / 180, x = Math.cos(a) * rx, y = Math.sin(a) * ry;
+    xs.push(cx + x * cr - y * sr); ys.push(cy + x * sr + y * cr);
+  }
+  return [xs, ys];
+}
+function bezPts(p0, p1, p2, p3, n = 180) {
+  const xs = [], ys = [];
+  for (let i = 0; i < n; i++) {
+    const u = i / (n - 1), v = 1 - u, a = v * v * v, b = 3 * v * v * u, c = 3 * v * u * u, d = u * u * u;
+    xs.push(a * p0[0] + b * p1[0] + c * p2[0] + d * p3[0]); ys.push(a * p0[1] + b * p1[1] + c * p2[1] + d * p3[1]);
+  }
+  return [xs, ys];
+}
+function family(n, seed, gen, opts = {}) {
+  const r = rng(seed);
+  return Array.from({ length: n }, (_, i) => { const [xs, ys] = gen(i, r); const tr = makeTrail(xs, ys, r); if (opts.each) opts.each(tr, i); return tr; });
+}
+const FAM = {
+  // remolino de luz bajo el auto del hook
+  hook: family(16, 7, (i, r) => { const rx = 430 + i * 58 + r() * 20; return arcPts(560, 1500, rx, rx * .27, 205 + r() * 15, -25 - r() * 20, -9); }),
+  // haces que convergen hacia el logo
+  rush: family(22, 11, (i, r) => { const y = 120 + i * 80 + r() * 30, d = y - 880; return bezPts([-150, y], [350, y + d * .05], [760, 880 + d * .28], [1260, 880 + d * .06]); },
+    { each: tr => { const d = Math.abs(tr.ys[0] - 880); tr.bright *= clamp(d / 520, .25, 1); tr.base *= clamp(d / 520, .2, 1); } }),
+  // "ruta" de luz debajo de los autos de los beneficios
+  road: family(18, 23, (i, r) => { const y = 1400 + i * 40 + r() * 15, d = y - 1400; return bezPts([-250, y + d * .3], [350, y - 30], [800, 1180 + d * .2], [1300, 1130 + d * .06]); }),
+  // arcos amplios arriba a la derecha (detrás del titular)
+  arcs: family(9, 31, (i, r) => { const rx = 520 + i * 52; return arcPts(1180, 230, rx, rx * .5, 186, 92, 10); },
+    { each: tr => { tr.base *= .6; tr.bright *= .55; } }),
+  // órbita alrededor del logo de cierre
+  orbit: family(14, 41, (i, r) => { const rx = 400 + i * 42; return arcPts(540, 760, rx, rx * .2, -170 + r() * 40, 190 + r() * 40, -12); }),
+  // remolino inferior del cierre
+  low: family(12, 53, (i, r) => { const y = 1600 + i * 36; return bezPts([-200, y + 80], [300, y], [800, 1520 + i * 10], [1300, 1470 + i * 4]); }),
+};
+
+const back = $('fxBack').getContext('2d'), front = $('fxFront').getContext('2d');
+const mkOff = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c.getContext('2d'); };
+const sharpB = mkOff(), sharpF = mkOff();
+
+function idxAt(tr, u) {
+  const L = clamp(u) * tr.len, cum = tr.cum;
+  let lo = 0, hi = cum.length - 1;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; if (cum[m] < L) lo = m; else hi = m; }
+  return lo + (cum[hi] > cum[lo] ? (L - cum[lo]) / (cum[hi] - cum[lo]) : 0);
+}
+function strokeRange(ctx, tr, u0, u1) {
+  const i0 = idxAt(tr, u0), i1 = idxAt(tr, u1), at = f => { const i = Math.floor(f), k = f - i, j = Math.min(i + 1, tr.xs.length - 1); return [lerp(tr.xs[i], tr.xs[j], k), lerp(tr.ys[i], tr.ys[j], k)]; };
+  ctx.beginPath(); ctx.moveTo(...at(i0));
+  for (let i = Math.ceil(i0); i < i1; i++) ctx.lineTo(tr.xs[i], tr.ys[i]);
+  ctx.lineTo(...at(i1)); ctx.stroke();
+}
+// tau: tiempo "de la estela" (se acelera en los golpes); reveal: cuánto del trazo está dibujado
+function drawFamily(ctx, fam, tau, reveal = 1, inten = 1) {
+  if (inten <= 0) return;
+  ctx.lineCap = 'round';
+  for (const tr of fam) {
+    const [r, g, b] = tr.c;
+    ctx.lineWidth = tr.w * .6; ctx.strokeStyle = `rgba(${r},${g},${b},${tr.base * inten})`;
+    if (reveal > 0) strokeRange(ctx, tr, 0, reveal);
+    for (let c = 0; c < tr.comets; c++) {
+      const head = ((tau * tr.speed + tr.phase + c * .8) % 1.6) - .3;
+      const M = 16;
+      for (let k = 0; k < M; k++) {
+        const ua = Math.max(0, head - tr.tail + tr.tail * k / M), ub = Math.min(reveal, head - tr.tail + tr.tail * (k + 1) / M);
+        if (ub <= ua) continue;
+        const a = (k + 1) / M, al = inten * tr.bright * Math.pow(a, 1.8);
+        ctx.lineWidth = tr.w * (.4 + .9 * a); ctx.strokeStyle = `rgba(${r},${g},${b},${al})`; strokeRange(ctx, tr, ua, ub);
+        if (a > .5) { ctx.lineWidth = tr.w * .35; ctx.strokeStyle = `rgba(255,244,228,${al * .85})`; strokeRange(ctx, tr, ua, ub); }
+      }
     }
   }
-  $('wipe').style.display = 'none';
+}
+// Rayas de velocidad horizontales (detrás de un auto en movimiento o en las transiciones)
+function speedLines(ctx, seed, n, x0, y0, y1, len, alpha, t) {
+  if (alpha <= 0.01) return;
+  const r = rng(seed);
+  ctx.lineCap = 'round';
+  for (let i = 0; i < n; i++) {
+    const y = lerp(y0, y1, r()), l = len * (.4 + r() * .6), off = ((t * (900 + r() * 900) + r() * 400) % 400), x = x0 + off;
+    const c = COLORS[Math.floor(r() * COLORS.length)], w = 1.5 + r() * 4;
+    const g = ctx.createLinearGradient(x, 0, x + l, 0);
+    g.addColorStop(0, `rgba(255,240,220,${alpha * (.5 + r() * .5)})`); g.addColorStop(.3, `rgba(${c[0]},${c[1]},${c[2]},${alpha * .7})`); g.addColorStop(1, `rgba(${c[0]},${c[1]},${c[2]},0)`);
+    ctx.strokeStyle = g; ctx.lineWidth = w; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + l, y); ctx.stroke();
+  }
+}
+// Copia el trazo nítido con dos pasadas de desenfoque sumadas = brillo neón
+function bloom(dst, src) {
+  dst.clearRect(0, 0, W, H);
+  dst.globalCompositeOperation = 'lighter';
+  dst.filter = 'blur(18px)'; dst.drawImage(src.canvas, 0, 0);
+  dst.filter = 'blur(5px)'; dst.drawImage(src.canvas, 0, 0);
+  dst.filter = 'none'; dst.drawImage(src.canvas, 0, 0);
+  dst.globalCompositeOperation = 'source-over';
 }
 
-// Revela de izquierda a derecha (p: 0..1) y sale hacia la derecha (q: 0..1)
-const reveal = (el, p, q = 0) => { el.style.clipPath = `inset(-20px ${100 - p * 100}% -20px ${q * 100}%)`; };
+// ---------- Autos ----------
+let mbN = 0;
+function makeCar(holder, name, maxW, maxH) {
+  const id = 'mb' + mbN++;
+  $('defs').insertAdjacentHTML('beforeend', `<filter id="${id}" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="0 0"/></filter>`);
+  const src = CAR_DIR + name + '.png';
+  holder.innerHTML = `<div class="carBox"><div class="floor"></div><div class="shadow"></div><div class="imgWrap"><img src="${src}"><div class="glare"></div><div class="rim"></div></div></div>`;
+  const wrap = holder.querySelector('.imgWrap'), img = wrap.querySelector('img');
+  for (const m of wrap.querySelectorAll('.glare, .rim')) { m.style.webkitMaskImage = m.style.maskImage = `url(${src})`; }
+  const fit = () => { const ar = img.naturalWidth / img.naturalHeight; wrap.style.width = Math.min(maxW, maxH * ar) + 'px'; };
+  const car = { el: holder, img, glare: wrap.querySelector('.glare'), blur: $(id).firstChild, id, ready: img.decode().then(fit).catch(() => {}) };
+  img.style.filter = `url(#${id}) drop-shadow(0 20px 18px rgba(0,0,0,.6))`;
+  return car;
+}
+const car1 = makeCar($('car1'), HERO, 1000, 640);
+const cars3 = BENEFITS.map(b => { const d = document.createElement('div'); d.className = 'car abs'; d.id = 'car3'; $('cars3').appendChild(d); return makeCar(d, b.car, 1020, 600); });
 
+function placeCar(car, x, vx, glareP, extraY = 0) {
+  css(car.el, { transform: `translate(${x}px, ${extraY}px)`, display: Math.abs(x) > 1280 ? 'none' : 'block' });
+  car.blur.setAttribute('stdDeviation', `${Math.min(45, Math.abs(vx) / 110)} 0`);
+  car.glare.style.backgroundPosition = `${lerp(100, 0, glareP)}% 0`;
+  car.glare.style.opacity = glareP > 0 && glareP < 1 ? 1 : 0;
+}
+const heroX = t => lerp(1300, 0, eOut(prog(t, 1.95, 2.75))) - clamp(t - 2.75, 0, 2) * 10;
+const beatX = (i, t) => {
+  const s = T.beats[i];
+  let x = lerp(1300, 0, eOut(prog(t, s + .05, s + .7)));
+  if (i < T.beats.length - 1) x = lerp(x, -1300, eIn(prog(t, s + T.beatLen - .3, s + T.beatLen + .05)));
+  return x - clamp(t - s - .7, 0, 2) * 10;
+};
+const vel = (f, t) => (f(t) - f(t - 1 / 30)) * 30;
+
+// Golpes: la estela se acelera cuando entra cada auto
+const tauBeats = t => t * .9 + T.beats.reduce((s, b) => s + 1.2 * eOut(prog(t, b, b + .9)), 0);
+
+// ---------- Render ----------
 let lastBeat = -1;
 function render(t) {
+  const [c1, c2, c3] = T.cuts;
+  sharpB.clearRect(0, 0, W, H);
+
   // ---------- Escena 1: hook ----------
-  show($('s1'), t < T.w1);
-  if (t < T.w1) {
-    css($('s1bg'), { transform: `scale(${lerp(1.18, 1.04, eOut(prog(t, 0, T.w1)))})` });
-    const wd = eOut(prog(t, 0.05, 0.7));
-    css($('wedge'), { transform: `translateY(${lerp(700, 0, wd)}px)` });
-    css($('wedgeLine'), { transform: `translateY(${lerp(700, 0, eOut(prog(t, 0.15, 0.8)))}px)` });
-    const lg = eOut(prog(t, 0.1, 0.6));
-    css($('logo1'), { opacity: lg, transform: `translateY(${lerp(-30, 0, lg)}px)` });
-    chars('q').forEach((c, k) => {
-      const p = eBack(prog(t, 0.25 + k * 0.05, 0.6 + k * 0.05));
-      css(c, { opacity: prog(t, 0.25 + k * 0.05, 0.4 + k * 0.05), transform: `translateY(${lerp(60, 0, p)}px)` });
-    });
-    reveal($('band'), eInOut(prog(t, 0.7, 1.1)));
-    chars('l3').forEach((c, k) => {
-      const p = eBack(prog(t, 1.0 + k * 0.045, 1.35 + k * 0.045));
-      css(c, { opacity: prog(t, 1.0 + k * 0.045, 1.15 + k * 0.045), transform: `translateY(${lerp(70, 0, p)}px)` });
-    });
-    const ok = eBack(prog(t, 1.35, 1.8));
-    css($('okm'), { opacity: prog(t, 1.35, 1.5), transform: `scale(${lerp(1.5, 1, ok)})` });
-    $('okm').querySelector('.f').style.opacity = eOut(prog(t, 1.8, 2.2));
-    // El auto entra "manejando" desde la derecha y frena con un leve rebote
-    const cp = prog(t, 1.95, 2.85);
-    const cx = lerp(1250, 0, eOut(cp)) + Math.sin(prog(t, 2.6, 3.2) * Math.PI) * -12;
-    const sq = 1 + Math.sin(prog(t, 2.55, 3.0) * Math.PI) * 0.012;
-    css($('car1'), { transform: `translate(${cx + (t - 2.85 > 0 ? -(t - 2.85) * 8 : 0)}px, 0) scale(${sq})`, transformOrigin: '50% 85%' });
-    // leve empuje de cámara hacia el final de la escena
-    css($('hook'), { transform: `translateY(${-prog(t, 2.8, T.w1) * 10}px)` });
+  const in1 = t < c1;
+  show($('g1'), in1); show($('s1'), in1);
+  if (in1) {
+    css($('b1'), { transform: `scale(${lerp(1.2, 1.05, eOut(prog(t, 0, c1)))}) rotate(${lerp(-2, 0, eOut(prog(t, 0, c1)))}deg)` });
+    drawFamily(sharpB, FAM.hook, t * 1.1, eOut(prog(t, .1, 1.5)), 1.25 * prog(t, 0, .3));
+    const lg = eOut(prog(t, .1, .6));
+    css($('logo1'), { opacity: flick(lg, 1, t), transform: `translateY(${lerp(-30, 0, lg)}px)` });
+    neonLetters($('q'), t, .25, .05);
+    neonLetters($('band'), t, .7, .025, .3);
+    neonLetters($('l3'), t, 1.0, .045);
+    neonLetters($('okm'), t, 1.35, .12, .45);
+    const ok = eBack(prog(t, 1.35, 1.9));
+    css($('okm'), { transform: `scale(${lerp(1.25, 1, ok)})` });
+    const vx = vel(heroX, t), x = heroX(t);
+    placeCar(car1, x, vx, prog(t, 2.95, 3.6));
+    speedLines(sharpB, 5, 18, 540 + x + 120, 1120, 1600, 200 + Math.abs(vx) * .35, clamp(Math.abs(vx) / 2500), t);
+    css($('hook'), { transform: `translateY(${-prog(t, 2.8, c1) * 12}px)` });
   }
 
   // ---------- Escena 2: logo ----------
-  const in2 = t >= T.w1 && t < T.w2;
-  show($('s2'), in2);
+  const in2 = t >= c1 && t < c2;
+  show($('g2'), in2); show($('s2'), in2);
   if (in2) {
-    const u = t - T.w1;
-    css($('s2bg'), { transform: `scale(${lerp(1.08, 1.18, u / (T.w2 - T.w1))}) translateX(${-u * 25}px)` });
-    $('lines2').querySelectorAll('path').forEach((p, k) => draw(p, eOut(prog(u, 0.05 + k * 0.1, 0.9 + k * 0.1))));
-    css($('lines2'), { transform: `translate(${-u * 20}px, ${u * 10}px)` });
-    const lg = eBack(prog(u, 0.25, 0.85));
-    css($('logo2'), { opacity: prog(u, 0.25, 0.4), transform: `scale(${lerp(.55, 1, lg)})` });
-    reveal($('logo2'), eOut(prog(u, 0.25, 0.75)));
-    $('logo2').style.filter = `drop-shadow(0 0 ${lerp(0, 50, Math.sin(prog(u, 0.6, 1.8) * Math.PI))}px rgba(255,127,0,.45))`;
-    const sg = eBack(prog(u, 0.8, 1.2));
-    css($('slogan2'), { opacity: prog(u, 0.8, 0.95), transform: `scale(${lerp(.5, 1, sg)})` });
+    const u = t - c1;
+    css($('b2'), { transform: `scale(${lerp(1.08, 1.2, u / (c2 - c1))}) translateX(${-u * 30}px)` });
+    drawFamily(sharpB, FAM.rush, u * 2.4 + 3, eOut(prog(u, 0, .5)), 1);
+    const lg = eBack(prog(u, .2, .75));
+    css($('logo2'), { opacity: flick(prog(u, .2, .45), 3, t), transform: `scale(${lerp(.6, 1, lg)})`,
+      filter: `drop-shadow(0 0 ${lerp(30, 12, prog(u, .3, 1))}px rgba(255,127,0,.8)) drop-shadow(0 0 60px rgba(255,100,0,.45))` });
+    neonLetters($('slogan2'), u, .75, .02, .3);
   }
 
   // ---------- Escena 3: beneficios ----------
-  const in3 = t >= T.w2 && t < T.w3;
-  show($('s3'), in3);
+  const in3 = t >= c2 && t < c3;
+  show($('g3'), in3); show($('s3'), in3);
   if (in3) {
-    const u = t - T.w2;
-    css($('s3bg'), { transform: `scale(${lerp(1.12, 1.0, eOut(prog(u, 0, T.w3 - T.w2)))}) translateX(${-u * 6}px)` });
-    $('s3lines').querySelectorAll('path').forEach((p, k) => draw(p, eOut(prog(u, 0.1 + k * 0.15, 1.2 + k * 0.15))));
-    const dk = eOut(prog(u, 0, 0.5));
-    css($('s3dark'), { transform: `translateY(${lerp(500, 0, dk)}px)` });
-    css($('s3edge'), { transform: `translateY(${lerp(500, 0, eOut(prog(u, 0.08, 0.58)))}px)` });
+    const u = t - c2, tau = tauBeats(t);
+    drawFamily(sharpB, FAM.road, tau, eOut(prog(u, 0, .7)), 1.3);
+    drawFamily(sharpB, FAM.arcs, tau * .7, eOut(prog(u, .1, 1.1)), 1);
 
-    // beneficio activo
     let bi = 0;
     T.beats.forEach((b, i) => { if (t >= b) bi = i; });
-    if (bi !== lastBeat) { $('tag1').textContent = BENEFITS[bi].a; $('tag2').textContent = BENEFITS[bi].b; lastBeat = bi; }
-    const b = T.beats[bi], last = bi === T.beats.length - 1;
-    const outA = last ? 99 : b + T.beatLen - 0.3;
-    reveal($('tag1'), eOut(prog(t, b, b + 0.35)), eIn(prog(t, outA, outA + 0.22)));
-    reveal($('tag2'), eOut(prog(t, b + 0.12, b + 0.47)), eIn(prog(t, outA + 0.05, outA + 0.27)));
-    css($('tags'), { transform: `rotate(-6deg) translateX(${lerp(-40, 0, eOut(prog(t, b, b + 0.5)))}px)` });
+    const B = BENEFITS[bi];
+    if (bi !== lastBeat) {
+      $('ba').textContent = B.a; $('bb').textContent = B.b; split($('ba')); split($('bb'));
+      $('ba').style.fontSize = B.size + 'px'; lastBeat = bi;
+    }
+    const b = T.beats[bi], outA = bi === T.beats.length - 1 ? Infinity : b + T.beatLen - .32;
+    neonLetters($('ba'), t, b + .05, B.a.length > 3 ? .03 : .1, .32, outA);
+    neonLetters($('bb'), t, b + .25, .03, .3, outA + .05);
 
-    car3Els.forEach((el, i) => {
-      const s = T.beats[i];
-      const isLast = i === T.beats.length - 1;
-      let x = lerp(1250, 0, eOut(prog(t, s + 0.05, s + 0.75)));
-      if (!isLast) x = lerp(x, -1250, eIn(prog(t, s + T.beatLen - 0.3, s + T.beatLen + 0.05)));
-      x -= clamp(t - s - 0.75, 0, 2) * 10;   // deriva lenta mientras está quieto
-      const bob = Math.sin((t - s) * 2.4) * 3;
-      css(el, { transform: `translate(${x}px, ${bob}px)`, display: Math.abs(x) > 1240 ? 'none' : 'block' });
+    cars3.forEach((car, i) => {
+      const f = tt => beatX(i, tt), x = f(t), vx = vel(f, t);
+      placeCar(car, x, vx, prog(t, T.beats[i] + .85, T.beats[i] + 1.5), Math.sin((t - T.beats[i]) * 2.4) * 3);
+      if (Math.abs(x) < 1280) speedLines(sharpB, 17 + i, 18, 540 + x + (vx < 0 ? 140 : -1500), 880, 1360, 200 + Math.abs(vx) * .35, clamp(Math.abs(vx) / 2500), t);
     });
 
-    // barra de patentamiento: entra con el primer beneficio y queda fija
-    const ba = eBack(prog(t, T.beats[0] + 0.55, T.beats[0] + 0.95));
-    css($('barA'), { transform: `scale(${lerp(0, 1, ba)})` });
-    reveal($('barB'), eOut(prog(t, T.beats[0] + 0.8, T.beats[0] + 1.25)));
-    draw($('check'), eOut(prog(t, T.beats[0] + 0.85, T.beats[0] + 1.2)));
-    css($('bar'), { opacity: prog(t, T.beats[0] + 0.55, T.beats[0] + 0.65) });
+    // patentamiento: entra con el primer beneficio y queda
+    const p0 = T.beats[0] + .6;
+    css($('patLine'), { transform: `scaleX(${eOut(prog(t, p0, p0 + .5))})`, opacity: flick(prog(t, p0, p0 + .3), 9, t) });
+    const ck = $('check'), L = 40;
+    ck.style.strokeDasharray = L; ck.style.strokeDashoffset = L * (1 - eOut(prog(t, p0 + .2, p0 + .55)));
+    css($('pat1').querySelector('svg'), { opacity: flick(prog(t, p0 + .1, p0 + .35), 4, t) });
+    neonLetters($('pat1').querySelector('span'), t, p0 + .2, .02, .25);
+    neonLetters($('pat2'), t, p0 + .45, .03, .3);
   }
 
   // ---------- Escena 4: cierre ----------
-  const in4 = t >= T.w3;
-  show($('s4'), in4);
+  const in4 = t >= c3;
+  show($('g4'), in4); show($('s4'), in4);
   if (in4) {
-    const u = t - T.w3;
-    $('lines4').querySelectorAll('path').forEach((p, k) => draw(p, eOut(prog(u, 0.05 + k * 0.12, 1.0 + k * 0.12))));
-    const lg = eBack(prog(u, 0.15, 0.75));
-    css($('logo4'), { opacity: prog(u, 0.15, 0.3), transform: `scale(${lerp(.6, 1, lg)})`,
-      filter: `drop-shadow(0 0 ${lerp(0, 40, Math.sin(prog(u, 0.7, DURATION - T.w3) * Math.PI))}px rgba(255,127,0,.35))` });
-    chars('cta').forEach((c, k) => {
-      const p = eOut(prog(u, 0.6 + k * 0.025, 0.95 + k * 0.025));
-      css(c, { opacity: p, transform: `translateY(${lerp(40, 0, p)}px)` });
-    });
-    [$('p4a'), $('p4b')].forEach((el, k) => {
-      const p = eBack(prog(u, 1.25 + k * 0.25, 1.7 + k * 0.25));
-      css(el, { opacity: prog(u, 1.25 + k * 0.25, 1.4 + k * 0.25), transform: `scale(${lerp(.5, 1, p)})` });
-    });
+    const u = t - c3;
+    drawFamily(sharpB, FAM.orbit, u * 1.2 + 2, eOut(prog(u, 0, 1.0)), 1);
+    drawFamily(sharpB, FAM.low, u + 1, eOut(prog(u, .2, 1.2)), .8);
+    const lg = eBack(prog(u, .15, .7));
+    css($('logo4'), { opacity: flick(prog(u, .15, .4), 5, t), transform: `scale(${lerp(.6, 1, lg)})`,
+      filter: `drop-shadow(0 0 ${lerp(10, 26, (Math.sin(u * 2.2) + 1) / 2)}px rgba(255,127,0,.75)) drop-shadow(0 0 60px rgba(255,100,0,.35))` });
+    neonLetters($('cta'), u, .6, .02, .3);
+    neonLetters($('web'), u, 1.0, .03, .3);
+    css($('webLine'), { transform: `scaleX(${eOut(prog(u, 1.3, 1.9))})`, opacity: flick(prog(u, 1.3, 1.55), 8, t) });
+    neonLetters($('slogan4'), u, 1.6, .02, .3);
   }
 
-  wipe(t);
-  const g = Math.floor(t * 30) * 7919 % 400;
-  css($('grain'), { transform: `translate(${g % 200}px, ${(g * 3) % 200}px)` });
-  css($('fade'), { opacity: Math.max(prog(t, DURATION - 0.35, DURATION), 1 - prog(t, 0, 0.2)) });
-}
+  bloom(back, sharpB);
 
-// Las pills del cierre no más anchas que el texto de arriba: se ajustan con las fuentes cargadas
-function fitBar() {
-  const s3 = $('s3'), prev = s3.style.display;
-  s3.style.display = 'block';
-  const span = $('barB').querySelector('span');
-  let fs = 46; span.style.fontSize = fs + 'px';
-  while ($('bar').offsetWidth > 900 && fs > 20) span.style.fontSize = (fs -= 0.5) + 'px';
-  s3.style.display = prev;
+  // ---------- Transiciones: rayos de luz + destello + zoom ----------
+  sharpF.clearRect(0, 0, W, H);
+  let zoom = 1, blur = 0;
+  for (const c of T.cuts) {
+    const pre = eIn(prog(t, c - .38, c)), post = 1 - eOut(prog(t, c, c + .4));
+    const I = t < c ? pre : post;
+    if (I <= 0) continue;
+    speedLines(sharpF, Math.round(c * 100), 46, -400 + (t - c) * -2600, 0, H, 500 + 900 * I, I, t);
+    const fl = Math.pow(I, 3) * .85;
+    const g = sharpF.createRadialGradient(540, 960, 0, 540, 960, 1200);
+    g.addColorStop(0, `rgba(255,230,200,${fl})`); g.addColorStop(.5, `rgba(255,140,40,${fl * .7})`); g.addColorStop(1, `rgba(255,100,0,${fl * .3})`);
+    sharpF.fillStyle = g; sharpF.fillRect(0, 0, W, H);
+    zoom = t < c ? 1 + .1 * pre : 1 + .1 * post; blur = 9 * I;
+  }
+  // pequeño "golpe" de cámara cuando aterriza cada auto
+  for (const b of [1.95, ...T.beats]) zoom += .018 * Math.sin(prog(t, b + .55, b + .95) * Math.PI);
+  css($('world'), { transform: `scale(${zoom})`, filter: blur > .1 ? `blur(${blur}px)` : 'none' });
+  bloom(front, sharpF);
+
+  const gr = Math.floor(t * 30) * 7919 % 400;
+  css($('grain'), { transform: `translate(${gr % 200}px, ${(gr * 3) % 200}px)` });
+  css($('fade'), { opacity: Math.max(prog(t, DURATION - .35, DURATION), 1 - prog(t, 0, .2)) });
 }
 
 window.DURATION = DURATION;
 window.render = render;
-window.ready = Promise.all([document.fonts.ready.then(fitBar), ...[...document.images].map(i => i.decode().catch(() => {}))]);
+window.ready = Promise.all([document.fonts.ready, car1.ready, ...cars3.map(c => c.ready), ...[...document.images].map(i => i.decode().catch(() => {}))]);
 
 if (!navigator.webdriver) {
-  const t0 = performance.now();
-  (function loop() { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); })();
+  window.ready.then(() => {
+    const t0 = performance.now();
+    (function loop() { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); })();
+  });
 } else render(0);
 </script>
 </body>
