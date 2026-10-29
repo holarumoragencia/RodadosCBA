@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Rodados Córdoba — Hacé realidad tu 0km</title>
+<style>
+  @font-face { font-family: M; font-weight: 500; src: url(../fonts/montserrat-latin-500-normal.woff2); }
+  @font-face { font-family: M; font-weight: 600; src: url(../fonts/montserrat-latin-600-normal.woff2); }
+  @font-face { font-family: M; font-weight: 700; src: url(../fonts/montserrat-latin-700-normal.woff2); }
+  @font-face { font-family: M; font-weight: 800; src: url(../fonts/montserrat-latin-800-normal.woff2); }
+  :root { --orange: #FF7F00; --black: #1D1E1C; --white: #F3F2F3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: M, sans-serif; color: var(--white); }
+  .abs { position: absolute; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  #bg { left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 50% 36%; }
+  #topShade { left: 0; top: 0; width: 1080px; height: 460px; background: linear-gradient(180deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.45) 55%, rgba(0,0,0,0) 100%); }
+  #botShade { left: 0; top: 1040px; width: 1080px; height: 880px; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 28%, #000 48%); }
+
+  #logo { left: 54px; top: 64px; width: 330px; filter: drop-shadow(0 6px 18px rgba(0,0,0,.6)); }
+  #head { right: 58px; top: 84px; text-align: right; }
+  #h1 { font-weight: 800; font-size: 46px; letter-spacing: 5px; white-space: nowrap; }
+  #h2 { font-weight: 800; font-size: 118px; line-height: 1; letter-spacing: 2px; margin-top: 6px; white-space: nowrap; }
+  #hbar { right: 62px; top: 268px; width: 300px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, rgba(255,127,0,0), var(--orange)); transform-origin: 100% 50%; }
+
+  .shine { color: transparent; -webkit-background-clip: text; background-clip: text; background-repeat: no-repeat; }
+  #h2.shine { background-image: linear-gradient(105deg, var(--orange) 0%, var(--orange) 40%, #FFE2B8 50%, var(--orange) 60%, var(--orange) 100%); background-size: 300% 100%; }
+
+  #aprov { left: 0; width: 1080px; top: 1368px; text-align: center; font-weight: 800; font-size: 47px; letter-spacing: 2px; white-space: nowrap; }
+  .wm { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 2px; }
+  .wm > span { display: inline-block; }
+  #brand { left: 0; width: 1080px; top: 1430px; text-align: center; font-weight: 800; font-size: 100px; white-space: nowrap; line-height: 1.05; }
+  #brand.shine { background-image: linear-gradient(105deg, var(--orange) 0%, var(--orange) 40%, #FFE2B8 50%, var(--orange) 60%, var(--orange) 100%); background-size: 300% 100%; }
+
+  #offer { left: 56px; top: 1600px; width: 968px; height: 230px; }
+  #lbl { left: 0; top: 4px; font-weight: 700; font-size: 27px; letter-spacing: 2.5px; white-space: nowrap; }
+  #pct { left: -6px; top: 40px; font-weight: 800; font-size: 150px; line-height: 1; color: var(--orange); letter-spacing: -4px; transform-origin: 0 60%; white-space: nowrap;
+         text-shadow: 0 0 var(--glow, 0px) rgba(255,127,0,.75); }
+  #int { left: 252px; top: 112px; font-weight: 800; font-size: 46px; letter-spacing: 2px; white-space: nowrap; line-height: 1.02; }
+  #int small { display: block; font-size: 25px; font-weight: 600; letter-spacing: 3px; color: rgba(243,242,243,.85); margin-top: 6px; }
+  #vline { left: 528px; top: 6px; width: 4px; height: 206px; border-radius: 2px; background: linear-gradient(180deg, var(--white), var(--orange)); transform-origin: 50% 0; }
+  .bul { left: 566px; width: 410px; font-weight: 700; font-size: 33px; line-height: 1.22; padding-left: 38px; }
+  .bul .dot { position: absolute; left: 0; top: 13px; width: 20px; height: 20px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 14px rgba(255,127,0,.8); }
+  #b1 { top: 6px; }
+  #b2 { top: 122px; }
+
+  #flare { left: -200px; top: 0; width: 1480px; height: 14px; border-radius: 7px; margin-top: -7px;
+           background: radial-gradient(ellipse at center, #fff 0%, rgba(255,190,120,.9) 18%, rgba(255,127,0,.45) 45%, rgba(255,127,0,0) 72%); mix-blend-mode: screen; filter: blur(2px); }
+  #flareGlow { left: 0; top: 0; width: 1080px; height: 600px; margin-top: -300px; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,160,70,.55), rgba(255,127,0,0) 70%); mix-blend-mode: screen; }
+  #vig { inset: 0; pointer-events: none; background: radial-gradient(ellipse 85% 65% at 50% 42%, rgba(0,0,0,0) 60%, rgba(0,0,0,.45) 100%); }
+  #grain { left: -200px; top: -200px; width: 1480px; height: 2320px; background: url(../grain.png); opacity: .06; mix-blend-mode: overlay; pointer-events: none; }
+  #fade { inset: 0; background: #000; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <img id="bg" class="abs">
+  <div id="topShade" class="abs"></div>
+  <div id="botShade" class="abs"></div>
+  <div id="vig" class="abs"></div>
+
+  <img id="logo" class="abs" src="../../assets/brand/logo-rodados-blanco.png">
+  <div id="head" class="abs">
+    <div id="h1">HACÉ REALIDAD</div>
+    <div id="h2" class="shine">TU 0KM</div>
+  </div>
+  <div id="hbar" class="abs"></div>
+
+  <div id="aprov" class="abs"></div>
+  <div id="brand" class="abs shine">RODADOS CBA</div>
+
+  <div id="offer" class="abs">
+    <div id="lbl" class="abs">FINANCIACIÓN A TASA FIJA</div>
+    <div id="pct" class="abs">0%</div>
+    <div id="int" class="abs">INTERÉS</div>
+    <div id="vline" class="abs"></div>
+    <div id="b1" class="abs bul"><span class="dot"></span>Aceptamos tu usado como forma de pago</div>
+    <div id="b2" class="abs bul"><span class="dot"></span>Consultá por financiación 100%</div>
+  </div>
+
+  <div id="flareGlow" class="abs"></div>
+  <div id="flare" class="abs"></div>
+  <div id="grain" class="abs"></div>
+  <div id="fade" class="abs"></div>
+</div>
+<script>
+const FPS = 24;
+window.DURATION = 10;
+const $ = id => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const p = (t, s, d) => clamp((t - s) / d);
+const oCubic = x => 1 - Math.pow(1 - x, 3);
+const oExpo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);
+const oBack = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const lerp = (a, b, x) => a + (b - a) * x;
+
+// "APROVECHÁ YA LAS VENTAJAS DE" palabra por palabra, cada una en su máscara
+const words = 'APROVECHÁ YA LAS VENTAJAS DE'.split(' ');
+$('aprov').innerHTML = words.map(w => `<span class="wm"><span>${w}</span></span>`).join(' ');
+const wordEls = [...document.querySelectorAll('#aprov .wm > span')];
+
+function set(el, o, tf, extra = {}) {
+  el.style.opacity = o;
+  el.style.transform = tf;
+  for (const k in extra) el.style[k] = extra[k];
+}
+
+// Barrido de brillo sobre texto con background-clip
+function shine(el, t, starts) {
+  let pos = 100;
+  for (const s of starts) { const x = p(t, s, 0.9); if (x > 0 && x < 1) pos = lerp(100, 0, x); }
+  el.style.backgroundPosition = `${pos}% 0`;
+}
+
+const bg = $('bg');
+let curFrame = -1;
+window.render = async t => {
+  const f = Math.min(240, Math.floor(t * FPS + 1e-6) + 1);
+  if (f !== curFrame) {
+    curFrame = f;
+    bg.src = `work/bg/${String(f).padStart(4, '0')}.jpg`;
+    await bg.decode();
+  }
+  // Leve push-in de cámara sobre el fondo
+  bg.style.transform = `scale(${1.0 + 0.04 * oCubic(t / 10)})`;
+
+  $('fade').style.opacity = 1 - oCubic(p(t, 0, 0.5));
+
+  // Destello anamórfico de apertura (pasa de arriba hacia el centro del auto)
+  const fl = p(t, 0.15, 0.75);
+  const flY = lerp(250, 1030, oCubic(fl));
+  const flO = Math.sin(Math.PI * fl);
+  set($('flare'), flO, `scaleX(${lerp(0.2, 1.4, oCubic(fl))})`, { top: flY + 'px' });
+  set($('flareGlow'), flO * 0.9, 'none', { top: flY + 'px' });
+
+  // Logo
+  const lg = oExpo(p(t, 0.45, 0.9));
+  set($('logo'), lg, `translateX(${lerp(-70, 0, lg)}px)`, { filter: `blur(${lerp(14, 0, lg)}px) drop-shadow(0 6px 18px rgba(0,0,0,.6))` });
+
+  // Titular superior
+  const h1 = oExpo(p(t, 0.7, 0.9));
+  set($('h1'), clamp(h1 * 1.6), 'none', { letterSpacing: lerp(20, 5, h1) + 'px', clipPath: `inset(0 0 0 ${lerp(100, 0, h1)}%)` });
+  const h2 = oExpo(p(t, 1.0, 0.8));
+  set($('h2'), h2, `scale(${lerp(1.45, 1, h2)})`, { filter: `blur(${lerp(16, 0, h2)}px)`, transformOrigin: '100% 50%' });
+  shine($('h2'), t, [1.75, 5.6, 8.4]);
+  const hb = oExpo(p(t, 1.35, 0.8));
+  set($('hbar'), hb, `scaleX(${hb})`);
+
+  // "Aprovechá ya las ventajas de"
+  wordEls.forEach((w, i) => {
+    const x = oExpo(p(t, 2.0 + i * 0.08, 0.7));
+    w.style.transform = `translateY(${lerp(110, 0, x)}%)`;
+  });
+  // "RODADOS CBA" con tracking que se cierra
+  const br = oExpo(p(t, 2.45, 1.0));
+  set($('brand'), br, `scale(${lerp(1.12, 1, br)})`, { letterSpacing: lerp(42, 6, br) + 'px', filter: `blur(${lerp(12, 0, br)}px)` });
+  shine($('brand'), t, [3.4, 7.2]);
+
+  // Oferta
+  const lb = oExpo(p(t, 3.2, 0.7));
+  set($('lbl'), lb, `translateX(${lerp(-40, 0, lb)}px)`, { clipPath: `inset(0 ${lerp(100, 0, lb)}% 0 0)` });
+  // "0%" entra de golpe (escala + desenfoque) y después late con un brillo naranja
+  const pc = p(t, 3.35, 0.6);
+  const punch = p(t, 4.1, 0.5);
+  const sc = pc < 1 ? lerp(1.7, 1, oBack(pc)) : 1 + 0.05 * Math.sin(Math.PI * punch);
+  set($('pct'), clamp(pc * 3), `scale(${sc})`, { filter: `blur(${lerp(14, 0, oCubic(pc))}px)` });
+  $('pct').style.setProperty('--glow', 40 * Math.sin(Math.PI * punch) + 'px');
+  const it = oExpo(p(t, 3.75, 0.7));
+  set($('int'), it, `translateX(${lerp(40, 0, it)}px)`);
+  const vl = oExpo(p(t, 3.5, 0.8));
+  set($('vline'), vl, `scaleY(${vl})`);
+  [['b1', 4.0], ['b2', 4.4]].forEach(([id, s]) => {
+    const el = $(id), x = oExpo(p(t, s, 0.8));
+    set(el, clamp(x * 1.5), `translateX(${lerp(60, 0, x)}px)`, { clipPath: `inset(-10px ${lerp(100, 0, x)}% -10px 0)` });
+    const d = p(t, s - 0.05, 0.45);
+    el.querySelector('.dot').style.transform = `scale(${d > 0 ? oBack(d) : 0})`;
+  });
+
+  // Grano que se mueve cada cuadro
+  const g = Math.floor(t * FPS);
+  $('grain').style.transform = `translate(${(g * 73) % 180 - 90}px, ${(g * 131) % 180 - 90}px)`;
+};
+
+window.ready = (async () => {
+  await document.fonts.load('800 40px M');
+  await document.fonts.load('700 40px M');
+  await document.fonts.load('600 40px M');
+  await document.fonts.ready;
+  await window.render(0);
+})();
+</script>
+</body>
+</html>
