@@ -7,8 +7,9 @@ Por cada cuadro del video fuente (work/src/NNNN.png):
    pasen por detrás del auto y no por encima.
 3. Estelas de las luces de la calle: zoom-blur radial de las altas luces desde el
    punto de fuga, teñidas cálidas.
-4. Estelas de neón sintéticas que salen del punto de fuga y aceleran hacia los
-   bordes (naranja marca, ámbar, cian, magenta), como en la referencia.
+4. Estelas de velocidad sintéticas, de un solo color (blanco cálido) y muy
+   desenfocadas, que salen del punto de fuga y aceleran hacia los bordes, más un
+   zoom-blur del fondo hacia los bordes para dar sensación de velocidad.
 5. Bloom + destello anamórfico en los faros.
 
 Uso: python3 fx.py [cuadro]   (sin argumento procesa todos → work/bg/NNNN.jpg)
@@ -28,8 +29,7 @@ W, H = 1080, 1920
 VP = (540.0, 590.0)          # punto de fuga de la calle
 BLACK_FROM = 1330            # desde acá el fuente ya es negro (zona de textos)
 
-# Colores de neón en BGR (OpenCV)
-NEON = [(0, 127, 255), (40, 170, 255), (255, 220, 40), (150, 40, 255), (255, 255, 255), (0, 127, 255)]
+STREAK = np.array([215, 235, 255], np.float32) / 255   # blanco cálido (BGR)
 
 
 def grade(img):
@@ -82,34 +82,42 @@ def zoom_blur(layer, steps=28, amount=0.38):
     return acc / steps * 2.2
 
 
-def neon_layer(t):
-    """Estelas sintéticas a media resolución, deterministas por tiempo."""
+def speed_blur(img, steps=16, amount=0.10):
+    """Zoom-blur normalizado de todo el cuadro (para mezclar hacia los bordes)."""
+    acc = np.zeros_like(img)
+    for i in range(steps):
+        s = 1 + amount * i / (steps - 1)
+        M = np.float32([[s, 0, VP[0] / 2 * (1 - s)], [0, s, VP[1] / 2 * (1 - s)]])
+        acc += cv2.warpAffine(img, M, (img.shape[1], img.shape[0]), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    return acc / steps
+
+
+def streak_layer(t):
+    """Estelas de velocidad a media resolución, deterministas por tiempo."""
     h, w = H // 2, W // 2
-    core = np.zeros((h, w, 3), np.float32)
+    core = np.zeros((h, w), np.float32)
     vp = (VP[0] / 2, VP[1] / 2)
     rng = np.random.default_rng(7)
-    n = 64
-    for k in range(n):
+    for k in range(28):
         side = 1 if k % 2 else -1
-        ang = np.deg2rad(rng.uniform(-38, 30))            # + = hacia abajo
-        period = rng.uniform(0.7, 1.4)
+        ang = np.deg2rad(rng.uniform(-36, 26))            # + = hacia abajo
+        period = rng.uniform(0.6, 1.1)
         phase = rng.uniform(0, period)
-        color = np.array(NEON[k % len(NEON)], np.float32) / 255
+        bright = rng.uniform(0.45, 1.0)
         u = ((t + phase) % period) / period              # 0→1 recorrido
-        r0 = 70 * np.exp(3.3 * u)                         # acelera en perspectiva
-        r1 = r0 * (1.7 + 1.1 * u)
+        r0 = 80 * np.exp(3.2 * u)                         # acelera en perspectiva
+        r1 = r0 * (2.3 + 1.6 * u)
         if r0 > 700:
             continue
         d = np.array([np.cos(ang) * side, np.sin(ang)])
         p0 = (vp[0] + d[0] * r0, vp[1] + d[1] * r0)
         p1 = (vp[0] + d[0] * r1, vp[1] + d[1] * r1)
-        thick = max(1, int(0.8 + r0 / 70))
-        fade = min(1, u * 6) * (1 - u ** 3)
+        thick = max(2, int(2 + r0 / 30))
+        fade = min(1, u * 5) * (1 - u ** 2) * bright
         cv2.line(core, (int(p0[0] * 16), int(p0[1] * 16)), (int(p1[0] * 16), int(p1[1] * 16)),
-                 tuple(float(c * fade) for c in color), thick, cv2.LINE_AA, shift=4)
-    glow = cv2.GaussianBlur(core, (0, 0), 5) * 2.2 + cv2.GaussianBlur(core, (0, 0), 18) * 3.0
-    out = core * 1.2 + glow
-    return cv2.resize(out, (W, H), interpolation=cv2.INTER_LINEAR)
+                 float(fade), thick, cv2.LINE_AA, shift=4)
+    soft = cv2.GaussianBlur(core, (0, 0), 7) * 0.9 + cv2.GaussianBlur(core, (0, 0), 22) * 1.6
+    return cv2.resize(soft, (W, H), interpolation=cv2.INTER_LINEAR)[..., None] * STREAK
 
 
 def process(i):
@@ -121,22 +129,29 @@ def process(i):
     yy = np.arange(H, dtype=np.float32)[:, None, None]
     vfade = np.clip((BLACK_FROM - 60 - yy) / 260, 0, 1) * np.clip((yy - 150) / 120, 0, 1)
 
+    # 0) Zoom-blur del fondo, creciente hacia los bordes y detrás del auto
+    yy2, xx2 = np.mgrid[0:H, 0:W].astype(np.float32)
+    dist = np.hypot(xx2 - VP[0], yy2 - VP[1])
+    wblur = (np.clip((dist - 180) / 520, 0, 1) ** 1.3)[..., None] * behind * 0.85
+    half = cv2.resize(x, (W // 2, H // 2), interpolation=cv2.INTER_AREA)
+    x = x * (1 - wblur) + cv2.resize(speed_blur(half), (W, H)) * wblur
+
     lum = x @ np.array([0.0722, 0.7152, 0.2126], np.float32)
     # 1) Estelas de luces de la calle
     hl = np.clip((lum - 0.62) / 0.3, 0, 1)[..., None] * x * behind
     small = cv2.resize(hl, (W // 2, H // 2), interpolation=cv2.INTER_AREA)
     streak = cv2.resize(zoom_blur(small), (W, H))
-    streak *= np.array([0.75, 0.95, 1.25], np.float32)   # cálidas
-    # 2) Neón
-    neon = neon_layer(t) * behind * vfade * 0.8
+    streak *= np.array([0.92, 0.98, 1.05], np.float32)   # blanco cálido
+    # 2) Estelas de velocidad
+    speed = streak_layer(t) * behind * 0.75
     # 3) Bloom de faros + destello anamórfico
     head = np.clip((lum - 0.8) / 0.2, 0, 1)[..., None] * car * x
     hs = cv2.resize(head, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
     bloom = cv2.resize(cv2.GaussianBlur(hs, (0, 0), 6), (W, H)) * np.array([1.2, 1.05, 0.95], np.float32) * 1.4
-    flare = cv2.resize(cv2.blur(hs, (151, 1)), (W, H)) * np.array([1.0, 0.75, 0.35], np.float32) * 2.6
+    flare = cv2.resize(cv2.blur(hs, (151, 1)), (W, H)) * np.array([0.9, 0.95, 1.0], np.float32) * 2.0
     flare *= 0.75 + 0.25 * np.sin(t * 2.4)
 
-    add = (streak * 1.5 + neon) * vfade + bloom + flare
+    add = (streak * 1.4 + speed) * vfade + bloom + flare
     out = 1 - (1 - x) * (1 - np.clip(add, 0, 1))         # screen
     out[BLACK_FROM + 40:] *= 0                             # zona de textos limpia
     cv2.imwrite(os.path.join(DST, f'{i:04d}.jpg'), np.clip(out * 255 + 0.5, 0, 255).astype(np.uint8),
