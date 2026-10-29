@@ -30,10 +30,13 @@ if (framesArg) {
     fs.writeFileSync(path.join(dir, 'work', 'test', `t${t.toFixed(2)}.jpg`), await shot(t));
   }
 } else {
+  // El audio fuente dura 10 s: se extiende con un tramo de la misma música y se desvanece al final.
+  const src = path.join(dir, 'work', 'fuente.mp4'), tramo = path.join(dir, 'work', 'tramo.wav'), audio = path.join(dir, 'work', 'audio.wav');
+  const run = args => new Promise(r => spawn('ffmpeg', ['-y', '-loglevel', 'error', ...args], { stdio: 'inherit' }).on('close', r));
+  await run(['-i', src, '-ss', '4', '-t', '4', '-vn', tramo]);
+  await run(['-i', src, '-i', tramo, '-filter_complex', `[0:a][1:a]acrossfade=d=1[m];[m]afade=t=out:st=${duration - 1.8}:d=1.8`, '-vn', audio]);
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-i', path.join(dir, 'work', 'fuente.mp4'), '-filter_complex', // el audio fuente dura 10 s: se extiende con un tramo de la música y se desvanece al final
-  `[1:a]asplit[a][b];[b]atrim=4:8,asetpts=PTS-STARTPTS[c];[a][c]acrossfade=d=1[m];[m]afade=t=out:st=${duration - 1.8}:d=1.8[aout]`,
-  '-map', '0:v', '-map', '[aout]', '-shortest',
+    '-i', audio, '-map', '0:v', '-map', '1:a', '-shortest',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
     '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
   const total = Math.round(duration * FPS);
