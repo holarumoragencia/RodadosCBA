@@ -31,7 +31,9 @@ if (framesArg) {
   }
 } else {
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-i', path.join(dir, 'work', 'fuente.mp4'), '-map', '0:v', '-map', '1:a', '-shortest',
+    '-i', path.join(dir, 'work', 'fuente.mp4'), '-filter_complex', // el audio fuente dura 10 s: se extiende con un tramo de la música y se desvanece al final
+  `[1:a]asplit[a][b];[b]atrim=4:8,asetpts=PTS-STARTPTS[c];[a][c]acrossfade=d=1[m];[m]afade=t=out:st=${duration - 1.8}:d=1.8[aout]`,
+  '-map', '0:v', '-map', '[aout]', '-shortest',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
     '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
   const total = Math.round(duration * FPS);

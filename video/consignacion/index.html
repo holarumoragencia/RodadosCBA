@@ -44,6 +44,14 @@
   #vig { inset: 0; pointer-events: none; background: radial-gradient(ellipse 85% 65% at 50% 42%, rgba(0,0,0,0) 60%, rgba(0,0,0,.45) 100%); }
   #grain { left: -200px; top: -200px; width: 1480px; height: 2320px; background: url(../grain.png); opacity: .06; mix-blend-mode: overlay; pointer-events: none; }
   #fade { inset: 0; background: #000; pointer-events: none; }
+
+  /* Cierre: motion del logo */
+  #end { inset: 0; background: #000; display: none; }
+  #endDark { inset: 0; background: radial-gradient(ellipse 70% 45% at 50% 47%, #6a2c00 0%, #2a1000 55%, #000 100%); }
+  #endBg { inset: 0; background: radial-gradient(ellipse 75% 50% at 50% 40%, #FFA347 0%, #FF7F00 48%, #D96500 100%); }
+  #endVig { inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 48%, rgba(0,0,0,0) 55%, rgba(60,20,0,.45) 100%); }
+  #endLogo { left: 137px; top: 733px; width: 806px; height: 457px; }
+  #endLogo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
 </style>
 </head>
 <body>
@@ -72,12 +80,24 @@
 
   <div id="flareGlow" class="abs"></div>
   <div id="flare" class="abs"></div>
-  <div id="grain" class="abs"></div>
   <div id="fade" class="abs"></div>
+  <div id="end" class="abs">
+    <div id="endDark" class="abs"></div>
+    <div id="endBg" class="abs"></div>
+    <div id="endVig" class="abs"></div>
+    <div id="endLogo" class="abs">
+      <img id="eShadow" src="endcard/relieve-sombra.png">
+      <img id="eLight" src="endcard/relieve-luz.png">
+      <img id="eShine" src="endcard/relieve-brillo.png">
+      <img id="eChrome" src="endcard/cromo.png">
+      <img id="eSpec" src="endcard/cromo-brillo.png">
+    </div>
+  </div>
+  <div id="grain" class="abs"></div>
 </div>
 <script>
 const FPS = 24;
-window.DURATION = 10;
+window.DURATION = 13;
 const $ = id => document.getElementById(id);
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const p = (t, s, d) => clamp((t - s) / d);
@@ -97,6 +117,35 @@ function set(el, o, tf, extra = {}) {
   for (const k in extra) el.style[k] = extra[k];
 }
 
+// Banda diagonal de brillo que recorre el logo (x en % del ancho)
+const band = x => `polygon(${x}% 0, ${x + 16}% 0, ${x + 4}% 100%, ${x - 12}% 100%)`;
+
+function renderEnd(t) {
+  const e = t - 10;
+  $('end').style.display = e >= 0 ? 'block' : 'none';
+  if (e < 0) return;
+  // 1) Sobre negro aparece el logo oscuro con borde metálico y un reflejo que lo cruza
+  const c = oCubic(p(e, 0, 0.45)) * (1 - p(e, 0.95, 0.35));
+  $('eChrome').style.opacity = c;
+  const sw = p(e, 0.1, 0.8);
+  $('eSpec').style.opacity = c * Math.sin(Math.PI * sw);
+  $('eSpec').style.clipPath = band(lerp(-30, 120, oCubic(sw)));
+  // 2) El fondo se enciende: primero naranja oscuro, después naranja marca
+  $('endDark').style.opacity = oCubic(p(e, 0.6, 0.4));
+  const o = oCubic(p(e, 0.9, 0.6));
+  $('endBg').style.opacity = o;
+  $('endBg').style.filter = `brightness(${lerp(0.55, 1, oCubic(p(e, 0.9, 1.1)))})`;
+  $('endVig').style.opacity = o;
+  $('eShadow').style.opacity = o;
+  $('eLight').style.opacity = o;
+  // 3) Brillo que recorre el relieve
+  const s2 = p(e, 1.75, 0.9);
+  $('eShine').style.opacity = Math.sin(Math.PI * s2);
+  $('eShine').style.clipPath = band(lerp(-30, 120, oCubic(s2)));
+  // Acercamiento lento de todo el logo
+  $('endLogo').style.transform = `scale(${lerp(1.07, 1, oCubic(p(e, 0, 1.2))) + 0.025 * p(e, 1.2, 1.8)})`;
+}
+
 const bg = $('bg');
 let curFrame = -1;
 window.render = async t => {
@@ -109,7 +158,8 @@ window.render = async t => {
   // Leve push-in de cámara sobre el fondo
   bg.style.transform = `scale(${1.0 + 0.04 * oCubic(t / 10)})`;
 
-  $('fade').style.opacity = 1 - oCubic(p(t, 0, 0.5));
+  $('fade').style.opacity = Math.max(1 - oCubic(p(t, 0, 0.5)), p(t, 9.7, 0.3));
+  renderEnd(t);
 
   // Destello anamórfico de apertura (pasa de arriba hacia el centro del auto)
   const fl = p(t, 0.15, 0.75);
