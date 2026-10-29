@@ -52,7 +52,10 @@
   #band { margin-top: 12px; font-weight: 800; font-size: 56px; letter-spacing: 9px; }
   #l3 { margin-top: 10px; font-weight: 800; font-size: 110px; letter-spacing: 3px; line-height: 1.05; }
   #okm { font-weight: 800; font-size: 310px; line-height: .95; letter-spacing: 6px; }
-  #car1 .carBox { top: 1010px; height: 640px; }
+  /* auto del hook en primer plano: más grande que la pantalla, recortado a la derecha y abajo, tapando el pie de "0KM" */
+  #car1 .carBox { top: 800px; height: 1110px; }
+  #car1 .imgWrap { left: 730px; }
+  #car1 .floor, #car1 .shadow { display: none; }
 
   /* Escena 2: logo */
   #logo2 { left: 200px; top: 700px; width: 680px; }
@@ -145,10 +148,10 @@
 // Cada beneficio puede llevar una foto de fondo desenfocada (photo) y pasa uno o más autos recortados (cars).
 const CAR_DIR = '../assets/autos/0km-grade/';
 const PHOTO_DIR = '../assets/fondos/';
-const HERO = 'chevrolet-tracker';
+const HERO = 'peugeot-2008';
 const BENEFITS = [
   { a: 'FINANCIACIÓN', size: 104, b: 'A TASA FIJA', photo: 'aircross-ruta.webp', cars: ['peugeot-208', 'citroen-c3-aircross'] },
-  { a: '0%', size: 250, b: 'INTERÉS', photo: 'tracker-rojo.webp', cars: ['fiat-cronos', 'peugeot-2008'] },
+  { a: '0%', size: 250, b: 'INTERÉS', photo: 'tracker-rojo.webp', cars: ['fiat-cronos', 'chevrolet-tracker'] },
   { a: 'ACEPTAMOS', size: 120, b: 'TU USADO', cars: ['renault-kardian'] },
 ];
 const DURATION = 17.8;
@@ -309,7 +312,7 @@ function makeCar(holder, name, maxW, maxH) {
   img.style.filter = `url(#${id}) drop-shadow(0 20px 18px rgba(0,0,0,.6))`;
   return car;
 }
-const car1 = makeCar($('car1'), HERO, 1000, 640);
+const car1 = makeCar($('car1'), HERO, 1600, 1200);
 // fin de cada beneficio y turnos de cada auto dentro de él
 const beatEnd = i => i < T.beats.length - 1 ? T.beats[i + 1] : T.cuts[2];
 const SLOTS = BENEFITS.flatMap((b, i) => b.cars.map((name, k) => {
@@ -333,7 +336,7 @@ function placeCar(car, x, vx, glareP, extraY = 0) {
   car.glare.style.backgroundPosition = `${lerp(100, 0, glareP)}% 0`;
   car.glare.style.opacity = glareP > 0 && glareP < 1 ? 1 : 0;
 }
-const heroX = t => lerp(1300, 0, eOut(prog(t, 1.95, 2.75))) - clamp(t - 2.75, 0, 2) * 10;
+const heroX = t => lerp(1500, 0, eOut(prog(t, 1.95, 2.75))) - clamp(t - 2.75, 0, 2) * 10;
 const slotX = (i, t) => {
   const { s, e } = SLOTS[i];
   let x = lerp(1300, 0, eOut(prog(t, s + .05, s + .7)));
@@ -368,7 +371,8 @@ function render(t) {
     css($('okm'), { transform: `scale(${lerp(1.25, 1, ok)})` });
     const vx = vel(heroX, t), x = heroX(t);
     placeCar(car1, x, vx, prog(t, 2.95, 3.6));
-    speedLines(sharpB, 5, 18, 540 + x + 120, 1120, 1600, 200 + Math.abs(vx) * .35, clamp(Math.abs(vx) / 2500), t);
+    css(car1.el, { transform: `${car1.el.style.transform} scale(${lerp(1.08, 1, eOut(prog(t, 1.95, 3.9)))})`, transformOrigin: '30% 80%' });
+    speedLines(sharpB, 5, 18, 540 + x + 500, 1000, 1900, 200 + Math.abs(vx) * .35, clamp(Math.abs(vx) / 2500), t);
     css($('hook'), { transform: `translateY(${-prog(t, 2.8, c1) * 12}px)` });
   }
 
