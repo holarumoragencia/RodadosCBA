@@ -8,16 +8,16 @@
   @font-face { font-family: M; font-weight: 600; src: url(fonts/montserrat-latin-600-normal.woff2); }
   @font-face { font-family: M; font-weight: 700; src: url(fonts/montserrat-latin-700-normal.woff2); }
   @font-face { font-family: M; font-weight: 800; src: url(fonts/montserrat-latin-800-normal.woff2); }
-  :root { --orange: #FF7F00; --black: #1D1E1C; --white: #F3F2F3;
-    --neonW: 0 0 3px #fff, 0 0 14px rgba(255,170,90,.75), 0 0 34px rgba(255,127,0,.55), 0 0 70px rgba(255,110,0,.35);
-    --neonO: 0 0 3px #FFE7C8, 0 0 14px #FF9A2E, 0 0 36px #FF7F00, 0 0 80px rgba(255,100,0,.75), 0 0 140px rgba(255,90,0,.45); }
+  :root { --orange: #FF7F00; --black: #1D1E1C; --white: #F3F2F3; --tshadow: 0 4px 22px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.35); }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: M, sans-serif; }
   .abs { position: absolute; }
   .full { left: 0; top: 0; width: 1080px; height: 1920px; }
-  .ch { display: inline-block; white-space: pre; }
-  .neonW { color: #FFF8F0; text-shadow: var(--neonW); }
-  .neonO { color: #FFB55E; text-shadow: var(--neonO); }
+  .tW { color: #FFFFFF; text-shadow: var(--tshadow); }
+  .tO { color: #FF8A1A; text-shadow: var(--tshadow); }
+  /* cada palabra sube desde una "ranura" invisible (máscara solo vertical) */
+  .mk { display: inline-block; vertical-align: top; clip-path: inset(-.3em -60% -.3em -60%); }
+  .in { display: inline-block; white-space: pre; }
   .center { left: 0; width: 1080px; text-align: center; }
 
   /* autos */
@@ -34,27 +34,27 @@
   .rim { position: absolute; inset: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; background: linear-gradient(180deg, rgba(255,140,40,0) 55%, rgba(255,140,40,.28) 100%); mix-blend-mode: screen; }
 
   /* fondos */
-  #b1 { background: url(../assets/fondos/interior-citroen.webp) 30% 40%/cover; filter: brightness(.66) contrast(1.1) saturate(.85); transform-origin: 40% 45%; }
-  #b1shade { background: linear-gradient(180deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.28) 40%, rgba(0,0,0,.12) 65%, rgba(0,0,0,.6) 100%), linear-gradient(rgba(255,120,20,.12), rgba(255,120,20,.12)); }
-  #b2 { background: url(../assets/fondos/aircross-ruta.webp) center/cover; filter: grayscale(.2) brightness(.85) contrast(1.05); transform-origin: 55% 60%; }
-  #b2tint { background: radial-gradient(ellipse 60% 30% at 50% 46%, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(10,4,0,.55), rgba(60,22,0,.3) 50%, rgba(0,0,0,.7)); }
-  #b3 { background: radial-gradient(ellipse 90% 45% at 50% 72%, #6b2c05 0%, #2a1205 50%, #0a0503 100%); }
+  #b1 { background: url(../assets/fondos/interior-citroen.webp) 30% 40%/cover; filter: brightness(.9) contrast(1.05) saturate(.9); transform-origin: 40% 45%; }
+  #b1shade { background: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 65%, rgba(0,0,0,.3) 100%), linear-gradient(rgba(255,120,20,.10), rgba(255,120,20,.10)); }
+  #b2 { background: url(../assets/fondos/aircross-ruta.webp) center/cover; filter: brightness(1.05) contrast(1.05); transform-origin: 55% 60%; }
+  #b2tint { background: radial-gradient(ellipse 60% 30% at 50% 46%, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(10,4,0,.3), rgba(60,22,0,.1) 50%, rgba(0,0,0,.4)); }
+  #b3 { background: radial-gradient(ellipse 95% 50% at 50% 68%, #B8540E 0%, #5E2A0A 50%, #24120A 100%); }
   .bphoto { background-size: cover; background-position: center; filter: brightness(.95) contrast(1.05) saturate(1.05); }
-  #bshade { background: linear-gradient(180deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.35) 32%, rgba(0,0,0,0) 48%, rgba(0,0,0,0) 66%, rgba(0,0,0,.65) 100%), linear-gradient(rgba(255,120,20,.10), rgba(255,120,20,.10)); }
+  #bshade { background: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.15) 32%, rgba(0,0,0,0) 48%, rgba(0,0,0,0) 70%, rgba(0,0,0,.4) 100%), linear-gradient(rgba(255,120,20,.08), rgba(255,120,20,.08)); }
   #b3haze { background: radial-gradient(ellipse 55% 25% at 85% 18%, rgba(255,110,0,.3), rgba(255,110,0,0) 70%); }
   #leak { pointer-events: none; mix-blend-mode: screen; background: radial-gradient(ellipse 50% 30% at 50% 50%, rgba(255,150,60,.55), rgba(255,120,20,0) 70%); }
-  #b4 { background: radial-gradient(ellipse 90% 40% at 50% 100%, rgba(255,110,0,.5) 0%, rgba(255,110,0,0) 70%), radial-gradient(ellipse 75% 45% at 50% 40%, #4a2508 0%, #120804 70%); }
+  #b4 { background: radial-gradient(ellipse 90% 40% at 50% 100%, rgba(255,120,0,.65) 0%, rgba(255,110,0,0) 70%), radial-gradient(ellipse 80% 50% at 50% 40%, #7A3A0C 0%, #2A1408 75%); }
 
   /* Escena 1: hook */
-  #logo1 { left: 410px; top: 190px; width: 260px; filter: drop-shadow(0 0 12px rgba(255,127,0,.55)); }
-  #hook { top: 395px; }
+  #logo1 { left: 410px; top: 175px; width: 260px; filter: drop-shadow(0 4px 16px rgba(0,0,0,.5)); }
+  #hook { top: 445px; }
   #q { font-weight: 800; font-size: 80px; letter-spacing: 5px; }
   #band { margin-top: 12px; font-weight: 800; font-size: 56px; letter-spacing: 9px; }
   #l3 { margin-top: 10px; font-weight: 800; font-size: 110px; letter-spacing: 3px; line-height: 1.05; }
   #okm { font-weight: 800; font-size: 310px; line-height: .95; letter-spacing: 6px; }
-  /* auto del hook en primer plano: más grande que la pantalla, recortado a la derecha y abajo, tapando el pie de "0KM" */
-  #car1 .carBox { top: 800px; height: 1110px; }
-  #car1 .imgWrap { left: 730px; }
+  /* auto del hook en primer plano: entero a la izquierda, recortado a la derecha y abajo, tapando el pie de "0KM" */
+  #car1 .carBox { top: 860px; height: 1110px; }
+  #car1 .imgWrap { left: 692px; }
   #car1 .floor, #car1 .shadow { display: none; }
 
   /* Escena 2: logo */
@@ -67,19 +67,19 @@
   #bb { margin-top: 18px; font-weight: 800; font-size: 72px; letter-spacing: 12px; }
   #car3 .carBox { top: 770px; height: 600px; }
   #pat { top: 1430px; }
-  #patLine { left: 220px; top: 1418px; width: 640px; height: 3px; background: linear-gradient(90deg, rgba(255,180,100,0), #FFD3A0 50%, rgba(255,180,100,0)); box-shadow: 0 0 14px #FF7F00, 0 0 30px rgba(255,127,0,.6); }
+  #patLine { left: 480px; top: 1404px; width: 120px; height: 6px; border-radius: 3px; background: var(--orange); }
   #pat1 { display: inline-flex; align-items: center; gap: 16px; font-weight: 700; font-size: 34px; letter-spacing: 7px; }
-  #pat1 svg { width: 44px; height: 44px; filter: drop-shadow(0 0 6px #FF7F00) drop-shadow(0 0 16px rgba(255,127,0,.7)); }
+  #pat1 svg { width: 44px; height: 44px; filter: drop-shadow(0 3px 10px rgba(0,0,0,.5)); }
   #pat2 { margin-top: 8px; font-weight: 800; font-size: 66px; letter-spacing: 9px; }
 
   /* Escena 4: cierre */
   #logo4 { left: 255px; top: 520px; width: 570px; }
   #cta { top: 1000px; font-weight: 600; font-size: 54px; letter-spacing: 1px; }
   #web { top: 1095px; font-weight: 700; font-size: 60px; letter-spacing: 3px; }
-  #webLine { left: 190px; top: 1185px; width: 700px; height: 3px; background: linear-gradient(90deg, rgba(255,180,100,0), #FFD3A0 50%, rgba(255,180,100,0)); box-shadow: 0 0 14px #FF7F00, 0 0 30px rgba(255,127,0,.6); }
+  #webLine { left: 480px; top: 1190px; width: 120px; height: 6px; border-radius: 3px; background: var(--orange); }
   #slogan4 { top: 1225px; font-weight: 700; font-size: 30px; letter-spacing: 7px; color: rgba(243,242,243,.85); }
 
-  #vig { pointer-events: none; background: radial-gradient(ellipse 80% 62% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,.45) 100%); }
+  #vig { pointer-events: none; background: radial-gradient(ellipse 80% 62% at 50% 50%, rgba(0,0,0,0) 65%, rgba(0,0,0,.22) 100%); }
   #grain { left: -200px; top: -200px; width: 1480px; height: 2320px; background: url(grain.png); opacity: .06; mix-blend-mode: overlay; pointer-events: none; }
   #fade { background: #000; }
 </style>
@@ -104,33 +104,33 @@
   <div id="s1" class="abs full">
     <img id="logo1" class="abs" src="../assets/brand/logo-rodados-blanco.png">
     <div id="hook" class="abs center">
-      <div id="q" class="neonW split">¿QUERÉS</div>
-      <div id="band" class="neonO split">RENOVAR O TENER</div>
-      <div id="l3" class="neonW split">TU PRIMER</div>
-      <div id="okm" class="neonO split">0KM</div>
+      <div id="q" class="tW split">¿QUERÉS</div>
+      <div id="band" class="tO split">RENOVAR O TENER</div>
+      <div id="l3" class="tW split">TU PRIMER</div>
+      <div id="okm" class="tO split">0KM</div>
     </div>
     <div id="car1" class="car abs"></div>
   </div>
 
   <div id="s2" class="abs full">
     <img id="logo2" class="abs" src="../assets/brand/logo-rodados-blanco.png">
-    <div id="slogan2" class="abs center neonW split">MÁS QUE AUTOS, SOLUCIONES</div>
+    <div id="slogan2" class="abs center tW split">MÁS QUE AUTOS, SOLUCIONES</div>
   </div>
 
   <div id="s3" class="abs full">
-    <div id="btext" class="abs center"><div id="ba" class="neonW"></div><div id="bb" class="neonO"></div></div>
+    <div id="btext" class="abs center"><div id="ba" class="tW"></div><div id="bb" class="tO"></div></div>
     <div id="cars3"></div>
     <div id="patLine" class="abs"></div>
     <div id="pat" class="abs center">
-      <div id="pat1" class="neonW"><svg viewBox="0 0 48 48" fill="none" stroke="#FFD9AE" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20" stroke-width="3.5"/><path id="check" d="M14 25 L21 32 L34 17"/></svg><span class="split">NOS OCUPAMOS DEL</span></div>
-      <div id="pat2" class="neonO split">PATENTAMIENTO</div>
+      <div id="pat1" class="tW"><svg viewBox="0 0 48 48" fill="none" stroke="#FF8A1A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20" stroke-width="3.5"/><path id="check" d="M14 25 L21 32 L34 17"/></svg><span class="split">NOS OCUPAMOS DEL</span></div>
+      <div id="pat2" class="tO split">PATENTAMIENTO</div>
     </div>
   </div>
 
   <div id="s4" class="abs full">
     <img id="logo4" class="abs" src="../assets/brand/logo-rodados-blanco.png">
-    <div id="cta" class="abs center neonW split">No dudes en consultar</div>
-    <div id="web" class="abs center neonO split">rodadoscordoba.com</div>
+    <div id="cta" class="abs center tW split">No dudes en consultar</div>
+    <div id="web" class="abs center tO split">rodadoscordoba.com</div>
     <div id="webLine" class="abs"></div>
     <div id="slogan4" class="abs center split">MÁS QUE AUTOS, SOLUCIONES</div>
   </div>
@@ -176,20 +176,22 @@ const rng = seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 const $ = id => document.getElementById(id);
 const css = (el, o) => Object.assign(el.style, o);
 const show = (el, on) => { el.style.display = on ? 'block' : 'none'; };
-// Encendido tipo neón: parpadea mientras p < 1
-const flick = (p, k, t) => p >= 1 ? 1 : p * (hash(Math.floor(t * 30) * 13 + k * 7) > 0.3 ? 1 : 0.2);
+const eExpo = p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p);
 
-function split(el) { el.innerHTML = [...el.textContent].map(c => `<span class="ch">${c}</span>`).join(''); }
-document.querySelectorAll('.split').forEach(split);
-const chars = el => [...el.querySelectorAll('.ch')];
+// Envuelve cada palabra en una máscara para animarla
+function words(el) {
+  el.innerHTML = el.textContent.split(' ').map(w => `<span class="mk"><span class="in">${w}</span></span>`).join(' ');
+  const cs = getComputedStyle(el);
+  el._ls = parseFloat(cs.letterSpacing) || 0; el._fs = parseFloat(cs.fontSize);
+}
+document.querySelectorAll('.split').forEach(words);
 
-// Letras que se encienden (blur + escala + parpadeo) y opcionalmente salen barridas a la izquierda
-function neonLetters(el, t, start, step = 0.035, dur = 0.35, outAt = Infinity) {
-  chars(el).forEach((c, k) => {
-    const p = eOut(prog(t, start + k * step, start + k * step + dur));
-    const q = outAt === Infinity ? 0 : eIn(prog(t, outAt + k * 0.015, outAt + k * 0.015 + 0.25));
-    css(c, { opacity: flick(p, k, t) * (1 - q), transform: `translateX(${-320 * q}px) scale(${lerp(1.35, 1, p)})`,
-      filter: `blur(${lerp(10, 0, p) + 14 * q}px)` });
+// Cada palabra sube desde su máscara mientras el espaciado se cierra; al salir, sigue de largo hacia arriba
+function reveal(el, t, start, outAt = Infinity, step = .08, dur = .8) {
+  el.querySelectorAll('.in').forEach((w, k) => {
+    const p = eExpo(prog(t, start + k * step, start + k * step + dur));
+    const q = outAt === Infinity ? 0 : eIn(prog(t, outAt + k * .04, outAt + k * .04 + .35));
+    css(w, { transform: `translateY(${(1 - p) * 140 - q * 140}%)`, letterSpacing: `${el._ls + (1 - p) * .14 * el._fs}px` });
   });
 }
 
@@ -312,7 +314,7 @@ function makeCar(holder, name, maxW, maxH) {
   img.style.filter = `url(#${id}) drop-shadow(0 20px 18px rgba(0,0,0,.6))`;
   return car;
 }
-const car1 = makeCar($('car1'), HERO, 1600, 1200);
+const car1 = makeCar($('car1'), HERO, 1400, 1100);
 // fin de cada beneficio y turnos de cada auto dentro de él
 const beatEnd = i => i < T.beats.length - 1 ? T.beats[i + 1] : T.cuts[2];
 const SLOTS = BENEFITS.flatMap((b, i) => b.cars.map((name, k) => {
@@ -362,16 +364,15 @@ function render(t) {
     css($('b1'), { transform: `scale(${lerp(1.2, 1.05, eOut(prog(t, 0, c1)))}) rotate(${lerp(-2, 0, eOut(prog(t, 0, c1)))}deg)` });
     drawFamily(sharpB, FAM.hook, t * 1.1, eOut(prog(t, .1, 1.5)), 1.25 * prog(t, 0, .3));
     const lg = eOut(prog(t, .1, .6));
-    css($('logo1'), { opacity: flick(lg, 1, t), transform: `translateY(${lerp(-30, 0, lg)}px)` });
-    neonLetters($('q'), t, .25, .05);
-    neonLetters($('band'), t, .7, .025, .3);
-    neonLetters($('l3'), t, 1.0, .045);
-    neonLetters($('okm'), t, 1.35, .12, .45);
-    const ok = eBack(prog(t, 1.35, 1.9));
-    css($('okm'), { transform: `scale(${lerp(1.25, 1, ok)})` });
+    css($('logo1'), { opacity: lg, transform: `translateY(${lerp(-30, 0, lg)}px)` });
+    reveal($('q'), t, .25);
+    reveal($('band'), t, .45);
+    reveal($('l3'), t, .7);
+    reveal($('okm'), t, 1.0, Infinity, .08, 1.0);
+    css($('okm'), { transform: `scale(${lerp(1.12, 1, eExpo(prog(t, 1.0, 2.2)))})` });
     const vx = vel(heroX, t), x = heroX(t);
     placeCar(car1, x, vx, prog(t, 2.95, 3.6));
-    css(car1.el, { transform: `${car1.el.style.transform} scale(${lerp(1.08, 1, eOut(prog(t, 1.95, 3.9)))})`, transformOrigin: '30% 80%' });
+    css(car1.el, { transform: `${car1.el.style.transform} scale(${lerp(1.08, 1, eOut(prog(t, 1.95, 3.9)))})`, transformOrigin: '0% 80%' });
     speedLines(sharpB, 5, 18, 540 + x + 500, 1000, 1900, 200 + Math.abs(vx) * .35, clamp(Math.abs(vx) / 2500), t);
     css($('hook'), { transform: `translateY(${-prog(t, 2.8, c1) * 12}px)` });
   }
@@ -384,9 +385,8 @@ function render(t) {
     css($('b2'), { transform: `scale(${lerp(1.08, 1.2, u / (c2 - c1))}) translateX(${-u * 30}px)` });
     drawFamily(sharpB, FAM.rush, u * 2.4 + 3, eOut(prog(u, 0, .5)), 1);
     const lg = eBack(prog(u, .2, .75));
-    css($('logo2'), { opacity: flick(prog(u, .2, .45), 3, t), transform: `scale(${lerp(.6, 1, lg)})`,
-      filter: `drop-shadow(0 0 ${lerp(30, 12, prog(u, .3, 1))}px rgba(255,127,0,.8)) drop-shadow(0 0 60px rgba(255,100,0,.45))` });
-    neonLetters($('slogan2'), u, .75, .02, .3);
+    css($('logo2'), { opacity: prog(u, .2, .45), transform: `scale(${lerp(.6, 1, lg)})`, filter: 'drop-shadow(0 6px 22px rgba(0,0,0,.55))' });
+    reveal($('slogan2'), u, .7, Infinity, .06);
   }
 
   // ---------- Escena 3: beneficios ----------
@@ -401,18 +401,18 @@ function render(t) {
     T.beats.forEach((b, i) => { if (t >= b) bi = i; });
     const B = BENEFITS[bi];
     if (bi !== lastBeat) {
-      $('ba').textContent = B.a; $('bb').textContent = B.b; split($('ba')); split($('bb'));
-      $('ba').style.fontSize = B.size + 'px'; lastBeat = bi;
+      $('ba').style.fontSize = B.size + 'px';
+      $('ba').textContent = B.a; $('bb').textContent = B.b; words($('ba')); words($('bb')); lastBeat = bi;
     }
     const b = T.beats[bi], outA = bi === T.beats.length - 1 ? Infinity : beatEnd(bi) - .32;
-    neonLetters($('ba'), t, b + .05, B.a.length > 3 ? .03 : .1, .32, outA);
-    neonLetters($('bb'), t, b + .25, .03, .3, outA + .05);
+    reveal($('ba'), t, b + .05, outA);
+    reveal($('bb'), t, b + .22, outA + .06);
 
     photos3.forEach((ph, i) => {
       if (!ph) return;
       const f = tt => photoX(i, tt), x = f(t), vx = vel(f, t), s = T.beats[i];
       css(ph, { display: Math.abs(x) >= 1080 ? 'none' : 'block', transform: `translateX(${x}px) scale(${lerp(1.18, 1.04, eOut(prog(t, s - .05, beatEnd(i))))})`,
-        filter: `brightness(.8) contrast(1.05) saturate(1.05) blur(${14 + Math.min(18, Math.abs(vx) / 500)}px)` });
+        filter: `brightness(1.05) contrast(1.05) saturate(1.05) blur(${14 + Math.min(18, Math.abs(vx) / 500)}px)` });
     });
     cars3.forEach((car, i) => {
       const s = SLOTS[i].s, f = tt => slotX(i, tt), x = f(t), vx = vel(f, t);
@@ -422,12 +422,12 @@ function render(t) {
 
     // patentamiento: entra con el primer beneficio y queda
     const p0 = T.beats[0] + .6;
-    css($('patLine'), { transform: `scaleX(${eOut(prog(t, p0, p0 + .5))})`, opacity: flick(prog(t, p0, p0 + .3), 9, t) });
+    css($('patLine'), { transform: `scaleX(${eOut(prog(t, p0, p0 + .5))})`, opacity: 1 });
     const ck = $('check'), L = 40;
     ck.style.strokeDasharray = L; ck.style.strokeDashoffset = L * (1 - eOut(prog(t, p0 + .2, p0 + .55)));
-    css($('pat1').querySelector('svg'), { opacity: flick(prog(t, p0 + .1, p0 + .35), 4, t) });
-    neonLetters($('pat1').querySelector('span'), t, p0 + .2, .02, .25);
-    neonLetters($('pat2'), t, p0 + .45, .03, .3);
+    css($('pat1').querySelector('svg'), { opacity: prog(t, p0 + .1, p0 + .35), transform: `scale(${lerp(.4, 1, eBack(prog(t, p0 + .1, p0 + .5)))})` });
+    reveal($('pat1').querySelector('span'), t, p0 + .15);
+    reveal($('pat2'), t, p0 + .3);
   }
 
   // ---------- Escena 4: cierre ----------
@@ -438,12 +438,11 @@ function render(t) {
     drawFamily(sharpB, FAM.orbit, u * 1.2 + 2, eOut(prog(u, 0, 1.0)), 1);
     drawFamily(sharpB, FAM.low, u + 1, eOut(prog(u, .2, 1.2)), .8);
     const lg = eBack(prog(u, .15, .7));
-    css($('logo4'), { opacity: flick(prog(u, .15, .4), 5, t), transform: `scale(${lerp(.6, 1, lg)})`,
-      filter: `drop-shadow(0 0 ${lerp(10, 26, (Math.sin(u * 2.2) + 1) / 2)}px rgba(255,127,0,.75)) drop-shadow(0 0 60px rgba(255,100,0,.35))` });
-    neonLetters($('cta'), u, .6, .02, .3);
-    neonLetters($('web'), u, 1.0, .03, .3);
-    css($('webLine'), { transform: `scaleX(${eOut(prog(u, 1.3, 1.9))})`, opacity: flick(prog(u, 1.3, 1.55), 8, t) });
-    neonLetters($('slogan4'), u, 1.6, .02, .3);
+    css($('logo4'), { opacity: prog(u, .15, .4), transform: `scale(${lerp(.6, 1, lg)})`, filter: 'drop-shadow(0 6px 22px rgba(0,0,0,.5))' });
+    reveal($('cta'), u, .6, Infinity, .06);
+    reveal($('web'), u, .85);
+    css($('webLine'), { transform: `scaleX(${eExpo(prog(u, 1.1, 1.8))})` });
+    reveal($('slogan4'), u, 1.25, Infinity, .06);
   }
 
   // destello de luz cálida que recorre la pantalla (más fuerte cuando aterriza cada auto)
